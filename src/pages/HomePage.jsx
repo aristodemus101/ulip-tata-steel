@@ -1,12 +1,13 @@
 import C from "../theme";
 import { Card } from "../components/ui";
 import { REC_LEARNINGS, POPULAR_MICRO, CALENDAR_EVENTS } from "../data/learningData";
+import { USER } from "../data/userData";
 
 export default function HomePage() {
   return (
     <div style={{maxWidth:1100}}>
       <div style={{marginBottom:20}}>
-        <h2 style={{fontSize:22,fontWeight:700,color:C.text,fontFamily:"'Playfair Display',serif",margin:0}}>Welcome back, Vikram 👋</h2>
+        <h2 style={{fontSize:22,fontWeight:700,color:C.text,fontFamily:"'Playfair Display',serif",margin:0}}>Welcome back, {USER.firstName} 👋</h2>
         <p style={{color:C.text2,fontSize:13,marginTop:4}}>You have <strong style={{color:C.red}}>1 overdue</strong> and <strong style={{color:C.blue}}>4 AI-recommended</strong> opportunities waiting.</p>
       </div>
 

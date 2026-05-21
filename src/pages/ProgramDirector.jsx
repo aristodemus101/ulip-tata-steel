@@ -9,6 +9,7 @@ import {
 } from "../data/workData";
 
 export default function ProgramDirector() {
+  const [group,setGroup]=useState("analytics");
   const [tab,setTab]=useState("skillgap");
   const [deptF,setDeptF]=useState("");const[levelF,setLevelF]=useState("");const[mgr,setMgr]=useState("");
   const [genState,setGenState]=useState({});
@@ -29,24 +30,15 @@ export default function ProgramDirector() {
   const SENT_DATA=[{month:"Jan",v:62},{month:"Feb",v:71},{month:"Mar",v:68},{month:"Apr",v:80},{month:"May",v:76}];
   const maxV=Math.max(...SENT_DATA.map(d=>d.v));
 
-  const PROG_TABS=[
-    {id:"skillgap",    label:"📊 Skill Gap Analysis"},
-    {id:"sentiment",   label:"📈 Sentiment & Effectiveness"},
-    {id:"trainings",   label:"📋 Past Trainings"},
-    {id:"content",     label:"✨ AI Content Creator"},
-    {id:"micro",       label:"⚡ Microlearning Engine"},
-    {id:"liveWork",    label:"🏭 Live Work Updates"},
-    {id:"scenario",    label:"🎭 Scenario & Simulation"},
-    {id:"gamified",    label:"🎮 Gamified Creator"},
-    {id:"casestudy",   label:"⚡ Case Study / Incident"},
-    {id:"book",        label:"📅 Book Training"},
-    {id:"calendar",    label:"🗓 Training Calendar"},
-    {id:"dashboard",   label:"📊 Training Dashboard"},
-    {id:"insights",    label:"🧠 AI Insights"},
-    {id:"requests",    label:"📥 Requested Trainings"},
-    {id:"programs",    label:"🟢 Active Programs"},
-    {id:"campaign",    label:"📣 Create Campaign"},
+  const GROUPS=[
+    { id:"analytics", icon:"📊", label:"Analytics & Insights",   color:C.blue,   desc:"Skill gaps, engagement trends, dashboards & AI insights",
+      tabs:[{id:"skillgap",label:"📊 Skill Gap Analysis"},{id:"sentiment",label:"📈 Sentiment & Effectiveness"},{id:"dashboard",label:"📊 Training Dashboard"},{id:"insights",label:"🧠 AI Insights"}] },
+    { id:"content",   icon:"✨", label:"Content Creation",        color:"#9B59B6", desc:"AI videos, microlearning, scenarios, gamified & case studies",
+      tabs:[{id:"content",label:"✨ AI Content Creator"},{id:"micro",label:"⚡ Microlearning Engine"},{id:"liveWork",label:"🏭 Live Work Updates"},{id:"scenario",label:"🎭 Scenario & Simulation"},{id:"gamified",label:"🎮 Gamified Creator"},{id:"casestudy",label:"⚡ Case Study / Incident"}] },
+    { id:"management",icon:"📅", label:"Training Management",     color:C.green,  desc:"Book, schedule, track & manage all training programs",
+      tabs:[{id:"book",label:"📅 Book Training"},{id:"calendar",label:"🗓 Training Calendar"},{id:"trainings",label:"📋 Past Trainings"},{id:"requests",label:"📥 Requested Trainings"},{id:"programs",label:"🟢 Active Programs"},{id:"campaign",label:"📣 Create Campaign"}] },
   ];
+  const activeGroup=GROUPS.find(g=>g.id===group);
 
   return (
     <div style={{maxWidth:1100}}>
@@ -59,17 +51,37 @@ export default function ProgramDirector() {
         <Bdg label="🔒 Trainer Access" color={C.blue2}/>
       </div>
 
-      <div style={{display:"flex",gap:8,marginBottom:24,borderBottom:`1px solid ${C.border}`,paddingBottom:14,overflowX:"auto"}}>
-        {PROG_TABS.map(t=>(
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,marginBottom:16}}>
+        {GROUPS.map(g=>{
+          const isActive=group===g.id;
+          return (
+            <button key={g.id} onClick={()=>{setGroup(g.id);if(!g.tabs.find(t=>t.id===tab))setTab(g.tabs[0].id);}} style={{
+              padding:"16px 18px",borderRadius:14,border:`2px solid ${isActive?g.color:C.border}`,
+              background:isActive?`${g.color}12`:C.white,
+              cursor:"pointer",textAlign:"left",transition:"all 0.15s",
+              boxShadow:isActive?`0 4px 16px ${g.color}25`:"none",
+            }}>
+              <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
+                <div style={{width:36,height:36,borderRadius:10,background:isActive?g.color:`${g.color}20`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,transition:"all 0.15s"}}>{g.icon}</div>
+                <span style={{fontSize:14,fontWeight:700,color:isActive?g.color:C.text}}>{g.label}</span>
+              </div>
+              <div style={{fontSize:11,color:C.text3,lineHeight:1.4}}>{g.desc}</div>
+              <div style={{marginTop:8,fontSize:10,color:isActive?g.color:C.text3,fontWeight:600}}>{g.tabs.length} sections</div>
+            </button>
+          );
+        })}
+      </div>
+
+      <div style={{display:"flex",gap:6,marginBottom:22,borderBottom:`1px solid ${C.border}`,paddingBottom:12,flexWrap:"wrap"}}>
+        {activeGroup.tabs.map(t=>(
           <button key={t.id} onClick={()=>setTab(t.id)} style={{
-            padding:"10px 18px",borderRadius:10,
-            border:`1.5px solid ${tab===t.id?C.blue:C.border}`,
-            background:tab===t.id?C.blue:C.white,
+            padding:"7px 14px",borderRadius:9,
+            border:`1.5px solid ${tab===t.id?activeGroup.color:C.border}`,
+            background:tab===t.id?activeGroup.color:C.white,
             color:tab===t.id?"#fff":C.text2,
             fontSize:12,fontWeight:600,cursor:"pointer",
-            whiteSpace:"nowrap",flexShrink:0,
-            boxShadow:tab===t.id?`0 2px 8px ${C.blue}30`:"none",
-            transition:"all 0.15s",
+            whiteSpace:"nowrap",transition:"all 0.15s",
+            boxShadow:tab===t.id?`0 2px 8px ${activeGroup.color}30`:"none",
           }}>{t.label}</button>
         ))}
       </div>

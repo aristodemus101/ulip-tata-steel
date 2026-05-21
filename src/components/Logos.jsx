@@ -36,11 +36,8 @@ export function ULIPLogoImg({ size=48 }) {
 
 export function TataLogoSVG() {
   return (
-    <div style={{ background:"#ffffff", borderRadius:8, padding:"5px 14px", display:"flex", alignItems:"center", height:40, border:"1px solid #DDE6EF", boxShadow:"0 1px 4px rgba(0,0,0,0.08)" }}>
-      <svg height={22} viewBox="0 0 180 36" xmlns="http://www.w3.org/2000/svg" style={{display:"block"}}>
-        <text x="0"  y="27" fontFamily="'Arial Black',Gadget,sans-serif" fontWeight="900" fontSize="28" fill="#0078C8" letterSpacing="-1">TATA</text>
-        <text x="96" y="27" fontFamily="Arial,Helvetica,sans-serif"       fontWeight="600" fontSize="26" fill="#0078C8" letterSpacing="-0.5">STEEL</text>
-      </svg>
+    <div style={{ background:"#ffffff", borderRadius:6, padding:"3px 8px", display:"flex", alignItems:"center", height:30, border:"1px solid #DDE6EF", boxShadow:"0 1px 4px rgba(0,0,0,0.08)" }}>
+      <img src="/tata-steel-logo.svg" alt="Tata Steel" style={{ height:18, width:"auto", display:"block" }}/>
     </div>
   );
 }
