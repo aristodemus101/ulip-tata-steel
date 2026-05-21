@@ -13,7 +13,7 @@ export default function CommunitiesPage() {
 
   const addPost = () => {
     if (!newPost.trim()) return;
-    setPosts(p=>[{ author:"Vikram Mehta", dept:"TQM · TSN", avatar:"VM", color:C.blue, time:"Just now", text:newPost, likes:0, comments:0, type:"text" },...p]);
+    setPosts(p=>[{ author:"Divyaansh Mehta", dept:"TQM · TSN", avatar:"DM", color:C.blue, time:"Just now", text:newPost, likes:0, comments:0, type:"text" },...p]);
     setNewPost("");
   };
 

@@ -17,7 +17,7 @@ export default function Sidebar({ active, setActive }) {
       <div style={{ padding:"10px 18px", borderBottom:"1px solid rgba(255,255,255,0.2)", display:"flex", alignItems:"center", gap:10 }}>
         <ProfileAvatar size={32}/>
         <div>
-          <div style={{ fontSize:12, fontWeight:600, color:"#fff" }}>Vikram Mehta</div>
+          <div style={{ fontSize:12, fontWeight:600, color:"#fff" }}>Divyaansh Mehta</div>
           <div style={{ fontSize:9, color:"rgba(255,255,255,0.85)" }}>TQM · H BF · TSN · IL4</div>
         </div>
       </div>

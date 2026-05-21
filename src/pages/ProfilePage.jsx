@@ -152,7 +152,7 @@ function SkillPassport({ onClose }) {
           <div style={{display:"flex",alignItems:"center",gap:16,marginBottom:14}}>
             <ProfileAvatar size={72}/>
             <div style={{flex:1}}>
-              <div style={{fontSize:20,fontWeight:800,color:"#fff",fontFamily:"'Playfair Display',serif"}}>Vikram Mehta</div>
+              <div style={{fontSize:20,fontWeight:800,color:"#fff",fontFamily:"'Playfair Display',serif"}}>Divyaansh Mehta</div>
               <div style={{fontSize:12,color:"rgba(255,255,255,0.7)"}}>Maintenance Engineer · IL4 · TQM Department</div>
               <div style={{fontSize:12,color:"rgba(255,255,255,0.6)"}}>Area: H Blast Furnace · Plant: TSN · Jamshedpur</div>
             </div>
@@ -232,7 +232,7 @@ export default function ProfilePage() {
           <ProfileAvatar size={90} edit/>
           <div style={{flex:1}}>
             <div style={{display:"flex",alignItems:"center",gap:12,flexWrap:"wrap",marginBottom:4}}>
-              <h2 style={{fontSize:22,fontWeight:700,color:C.text,fontFamily:"'Playfair Display',serif",margin:0}}>Vikram Mehta</h2>
+              <h2 style={{fontSize:22,fontWeight:700,color:C.text,fontFamily:"'Playfair Display',serif",margin:0}}>Divyaansh Mehta</h2>
               <Bdg label="Gold Learner" color={C.gold}/>
               <Bdg label="Safety Champion" color={C.green}/>
               <Bdg label="🔥 42-day streak" color={C.red}/>

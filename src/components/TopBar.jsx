@@ -57,7 +57,7 @@ export default function TopBar() {
         {profOpen && (
           <div style={{ position:"absolute", right:0, top:44, width:200, background:C.white, border:`1px solid ${C.border}`, borderRadius:12, boxShadow:"0 8px 24px #0E172618", zIndex:200, overflow:"hidden" }}>
             <div style={{ padding:"12px 16px", borderBottom:`1px solid ${C.border}` }}>
-              <div style={{ fontSize:13, fontWeight:700, color:C.text }}>Vikram Mehta</div>
+              <div style={{ fontSize:13, fontWeight:700, color:C.text }}>Divyaansh Mehta</div>
               <div style={{ fontSize:11, color:C.text3 }}>TQM · H Blast Furnace · TSN</div>
             </div>
             {[{icon:"⚙",label:"Settings"},{icon:"❓",label:"Help Centre"},{icon:"📋",label:"FAQs"},{icon:"🚪",label:"Logout",color:C.red}].map((item,i)=>(
