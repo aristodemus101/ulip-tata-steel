@@ -3,7 +3,7 @@ import C from "../theme";
 import { USER } from "../data/userData";
 
 const API_KEY = "AIzaSyACMv2U9vIzYASqBUo1EA7QnWWCRWLDXec";
-const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${API_KEY}`;
 
 const SYSTEM_PROMPT = `You are TDA (Tata Digital Assistant), an AI learning assistant embedded in ULIP — the Unified Learning & Intelligence Platform for Tata Steel employees.
 
