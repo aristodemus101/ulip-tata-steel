@@ -1,6 +1,6 @@
 import C from "../theme";
 import { Card } from "../components/ui";
-import { REC_LEARNINGS, POPULAR_MICRO, CALENDAR_EVENTS } from "../data/learningData";
+import { REC_LEARNINGS, POPULAR_MICRO, CALENDAR_EVENTS, ONGOING_TRAININGS } from "../data/learningData";
 import { USER } from "../data/userData";
 
 export default function HomePage() {
@@ -27,6 +27,74 @@ export default function HomePage() {
           </div>
         </div>
         <button style={{padding:"12px 24px",borderRadius:10,background:"#F5A623",border:"none",color:"#fff",fontSize:13,fontWeight:700,cursor:"pointer",flexShrink:0,boxShadow:"0 4px 16px rgba(245,166,35,0.5)",whiteSpace:"nowrap"}}>▶ Start Now</button>
+      </div>
+
+      {/* Ongoing + Calendar row */}
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16,marginBottom:16}}>
+
+        {/* Ongoing Trainings */}
+        <Card pad={0} style={{overflow:"hidden"}}>
+          <div style={{padding:"14px 16px",borderBottom:`1px solid ${C.border}`,background:"#F5F0FF"}}>
+            <div style={{fontSize:12,fontWeight:700,color:"#9B59B6"}}>📚 Continue Learning</div>
+            <div style={{fontSize:10,color:C.text3,marginTop:2}}>Pick up where you left off</div>
+          </div>
+          <div style={{overflowY:"auto",maxHeight:360}}>
+            {ONGOING_TRAININGS.map((t,i)=>(
+              <div key={i} style={{padding:"12px 14px",borderBottom:i<ONGOING_TRAININGS.length-1?`1px solid ${C.border}`:"none"}}>
+                <div style={{display:"flex",alignItems:"flex-start",gap:10,marginBottom:8}}>
+                  <div style={{width:36,height:36,borderRadius:9,background:`${t.color}15`,border:`1px solid ${t.color}30`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,flexShrink:0}}>
+                    {t.type==="Course"?"📘":t.type==="Cohort"?"👥":"⚡"}
+                  </div>
+                  <div style={{flex:1,minWidth:0}}>
+                    <div style={{fontSize:12,fontWeight:600,color:C.text,marginBottom:2,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{t.title}</div>
+                    <div style={{fontSize:10,color:C.text3}}>{t.module} · {t.duration} · {t.lastAccessed}</div>
+                  </div>
+                  <span style={{padding:"2px 7px",borderRadius:8,background:`${t.color}15`,color:t.color,fontSize:9,fontWeight:700,flexShrink:0}}>{t.type}</span>
+                </div>
+                <div style={{display:"flex",alignItems:"center",gap:8}}>
+                  <div style={{flex:1,height:5,background:C.border,borderRadius:3}}>
+                    <div style={{height:"100%",borderRadius:3,width:`${t.progress}%`,background:t.progress===100?C.green:t.color,transition:"width 0.4s"}}/>
+                  </div>
+                  <span style={{fontSize:10,fontWeight:700,color:t.progress===100?C.green:t.color,minWidth:28}}>{t.progress}%</span>
+                  {t.progress<100
+                    ? <button style={{padding:"4px 10px",borderRadius:7,border:"none",background:t.color,color:"#fff",fontSize:10,fontWeight:700,cursor:"pointer",flexShrink:0}}>Resume →</button>
+                    : <span style={{fontSize:10,color:C.green,fontWeight:700}}>✓ Done</span>}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div style={{padding:"10px 14px",borderTop:`1px solid ${C.border}`}}>
+            <button style={{width:"100%",padding:"8px",borderRadius:8,border:"1.5px solid #9B59B6",background:"transparent",color:"#9B59B6",fontSize:12,fontWeight:600,cursor:"pointer"}}>View All My Learnings →</button>
+          </div>
+        </Card>
+
+        {/* Training Calendar */}
+        <Card pad={0} style={{overflow:"hidden"}}>
+          <div style={{padding:"14px 16px",borderBottom:`1px solid ${C.border}`,background:"#F0FBF6"}}>
+            <div style={{fontSize:12,fontWeight:700,color:C.green}}>🗓 Training Calendar</div>
+            <div style={{fontSize:10,color:C.text3,marginTop:2}}>Upcoming scheduled sessions</div>
+          </div>
+          <div style={{overflowY:"auto",maxHeight:360}}>
+            {CALENDAR_EVENTS.map((e,i)=>(
+              <div key={i} style={{padding:"12px 14px",borderBottom:i<CALENDAR_EVENTS.length-1?`1px solid ${C.border}`:"none"}}>
+                <div style={{display:"flex",gap:10,alignItems:"flex-start"}}>
+                  <div style={{background:C.blue3,color:C.blue,borderRadius:9,padding:"6px 8px",fontSize:11,fontWeight:700,minWidth:52,textAlign:"center",lineHeight:1.3,flexShrink:0}}>{e.date}</div>
+                  <div style={{flex:1}}>
+                    <div style={{fontSize:12,fontWeight:600,color:C.text,marginBottom:2}}>{e.topic}</div>
+                    <div style={{display:"flex",gap:6,alignItems:"center",marginBottom:4,flexWrap:"wrap"}}>
+                      <span style={{fontSize:9,padding:"1px 6px",borderRadius:8,background:e.mode==="Online"?`${C.blue}15`:`${C.green}15`,color:e.mode==="Online"?C.blue:C.green,fontWeight:700}}>{e.mode}</span>
+                      <span style={{fontSize:10,color:C.text3}}>📍 {e.location}</span>
+                    </div>
+                    <div style={{fontSize:11,color:C.text2,lineHeight:1.5}}>{e.desc}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div style={{padding:"10px 14px",borderTop:`1px solid ${C.border}`}}>
+            <button style={{width:"100%",padding:"8px",borderRadius:8,border:`1.5px solid ${C.green}`,background:"transparent",color:C.green,fontSize:12,fontWeight:600,cursor:"pointer"}}>View Full Calendar →</button>
+          </div>
+        </Card>
       </div>
 
       {/* 3 tiles */}

@@ -102,6 +102,16 @@ export const LEARNING_MAP = {
   Expert:      { color:"#9B59B6", items:["Master Course + certification","Live project with business impact KPIs","SME feedback session (1:1)","Publish learnings to community"] },
 };
 
+export const ONGOING_TRAININGS = [
+  { title:"PLC Architecture & I/O Modules",        type:"Course",       progress:68, lastAccessed:"Today",      duration:"2h",     module:"PLC Programming",       color:"#0080C7" },
+  { title:"Vibration Analysis Basics",              type:"Microlearning",progress:100,lastAccessed:"Yesterday",  duration:"2 min",  module:"Predictive Maintenance",color:"#9B59B6" },
+  { title:"HAZOP Study Methodology",               type:"Course",       progress:42, lastAccessed:"3 days ago", duration:"2h",     module:"Process Safety",        color:"#E5484D" },
+  { title:"Blast Furnace Process Control",         type:"Course",       progress:25, lastAccessed:"May 10",     duration:"3h",     module:"BF Operations",         color:"#F5A623" },
+  { title:"Data Analytics Cohort – Week 2",        type:"Cohort",       progress:33, lastAccessed:"May 08",     duration:"6 weeks",module:"Data Analytics",        color:"#18B982" },
+  { title:"Autonomous Maintenance – Step 3",       type:"Microlearning",progress:55, lastAccessed:"Today",      duration:"2 min 40s",module:"TPM",                 color:"#F5A623" },
+  { title:"Six Sigma Yellow Belt Prep",            type:"Course",       progress:80, lastAccessed:"May 06",     duration:"4h",     module:"Six Sigma",             color:"#0080C7" },
+];
+
 export const REC_LEARNINGS = [
   { title:"Industrial IoT Essentials",     source:"EdNext",   duration:"3h 20m", match:"94%", tags:["IoT","Technology","Engineering"], summary:"Covers IIoT architecture, sensor integration and real-time data analytics for shopfloor applications. Ideal for engineers in automation-heavy roles." },
   { title:"Root Cause Analysis Methods",   source:"SumTotal", duration:"2h",     match:"91%", tags:["Quality","TQM","Problem Solving"], summary:"Teaches 5-Why, Fishbone and Fault Tree methods using actual Tata Steel incident case studies for practical problem solving." },

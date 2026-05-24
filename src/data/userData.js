@@ -1,7 +1,7 @@
 export const USER = {
-  name: "Divyaansh Mehta",
-  firstName: "Divyaansh",
-  initials: "DM",
+  name: "Jay Pratap Singh",
+  firstName: "Jay",
+  initials: "JS",
   dept: "TQM",
   area: "H Blast Furnace",
   plant: "TSN",
