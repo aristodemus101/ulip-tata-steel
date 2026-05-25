@@ -15,7 +15,7 @@ export default function ProfileAvatar({ size=90, edit=false }) {
   return (
     <div style={{ position:"relative", width:size, height:size, flexShrink:0 }}>
       <img
-        src="/profile-avatar.jpg"
+        src="/Jay Pratap Singh_IIFT Delhi.jpg"
         alt="Jay Pratap Singh"
         onError={()=>setImgFailed(true)}
         style={{ width:size, height:size, borderRadius:"50%", objectFit:"cover", objectPosition:"center top", border:"3px solid #B3D9F0", display:"block", boxShadow:"0 0 0 3px rgba(0,128,199,0.2)" }}
