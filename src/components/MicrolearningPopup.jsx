@@ -90,21 +90,13 @@ export default function MicrolearningPopup({ onClose, onXPEarned }) {
         <div style={{flex:1,overflowY:"auto",padding:"24px"}}>
           {phase==="watch" && (
             <div>
-              <div style={{
-                background:"linear-gradient(135deg,#003D6B,#0080C7)",
-                borderRadius:14, height:200, display:"flex",
-                flexDirection:"column", alignItems:"center", justifyContent:"center",
-                marginBottom:20, position:"relative", overflow:"hidden", cursor:"pointer",
-              }} onClick={()=>setPhase("question")}>
-                <div style={{position:"absolute",inset:0,backgroundImage:"radial-gradient(circle at 30% 40%, rgba(255,255,255,0.08) 0%, transparent 60%)"}}/>
-                <div style={{width:64,height:64,borderRadius:"50%",background:"rgba(255,255,255,0.2)",border:"3px solid rgba(255,255,255,0.5)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:28,color:"#fff",marginBottom:12}}>▶</div>
-                <div style={{fontSize:14,fontWeight:700,color:"#fff"}}>Play Video</div>
-                <div style={{fontSize:11,color:"rgba(255,255,255,0.7)",marginTop:4}}>Click to watch · {TQM_MICRO.duration}</div>
-                <div style={{position:"absolute",bottom:12,left:0,right:0,padding:"0 16px"}}>
-                  <div style={{height:3,background:"rgba(255,255,255,0.2)",borderRadius:2}}>
-                    <div style={{height:"100%",width:"0%",background:"#FFD166",borderRadius:2}}/>
-                  </div>
-                </div>
+              <div style={{borderRadius:14,overflow:"hidden",marginBottom:20,background:"#000"}}>
+                <video
+                  src="/autonomous-maintenance.mp4"
+                  controls
+                  style={{width:"100%",display:"block",maxHeight:260}}
+                  onEnded={()=>setPhase("question")}
+                />
               </div>
 
               <div style={{marginBottom:18}}>
