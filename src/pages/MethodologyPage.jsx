@@ -332,7 +332,7 @@ export default function MethodologyPage() {
         <div style={{ display:"flex", flexDirection:"column", gap:4 }}>
           <ArchLayer icon="📦" label="Data Layer"             tech="Static JS modules"             color="#9B59B6"   desc="All platform data (users, skills, courses, gigs, jobs, SMEs) lives in three JS files: learningData.js, workData.js, userData.js." accent="#4ade80"/>
           <DownArrow/>
-          <ArchLayer icon="🔔" label="Notification Engine"    tech="React state (App.jsx)"         color:"#FF6B35"   color="#FF6B35" desc="Global notifications array with addNotification() function. TopBar reads unread count; action-typed notifs trigger app events." accent="#4ade80"/>
+          <ArchLayer icon="🔔" label="Notification Engine"    tech="React state (App.jsx)"         color="#FF6B35" desc="Global notifications array with addNotification() function. TopBar reads unread count; action-typed notifs trigger app events." accent="#4ade80"/>
           <DownArrow/>
           <ArchLayer icon="☁️" label="Hosting & CI/CD"        tech="Firebase · GitHub Actions"     color="#8A94A6"   desc="GitHub push triggers build pipeline. Vite bundles to dist/. Firebase deploys globally with SPA rewrite rule. PR previews supported." accent="#4ade80"/>
         </div>
