@@ -69,6 +69,15 @@ export const ACTIVE_PROGRAMS = [
   { name:"Lean Champions",     status:"Upcoming", participants:90,  type:"Operations",  since:"Jun 2024", color:"#9B59B6" },
 ];
 
+export const GROUPS = [
+  { id:"analytics", icon:"📊", label:"Analytics & Insights",  color:"#0080C7", desc:"Skill gaps, engagement trends, dashboards & AI insights",
+    tabs:[{id:"skillgap",label:"📊 Skill Gap Analysis"},{id:"sentiment",label:"📈 Sentiment & Effectiveness"},{id:"dashboard",label:"📊 Training Dashboard"},{id:"insights",label:"🧠 AI Insights"}] },
+  { id:"content",   icon:"✨", label:"Content Creation",       color:"#9B59B6", desc:"AI videos, microlearning, scenarios, gamified & case studies",
+    tabs:[{id:"content",label:"✨ AI Content Creator"},{id:"micro",label:"⚡ Microlearning Engine"},{id:"liveWork",label:"🏭 Live Work Updates"},{id:"scenario",label:"🎭 Scenario & Simulation"},{id:"gamified",label:"🎮 Gamified Creator"},{id:"casestudy",label:"⚡ Case Study / Incident"}] },
+  { id:"management",icon:"📅", label:"Training Management",    color:"#18B982", desc:"Book, schedule, track & manage all training programs",
+    tabs:[{id:"book",label:"📅 Book Training"},{id:"calendar",label:"🗓 Training Calendar"},{id:"trainings",label:"📋 Past Trainings"},{id:"requests",label:"📥 Requested Trainings"},{id:"programs",label:"🟢 Active Programs"},{id:"campaign",label:"📣 Create Campaign"}] },
+];
+
 export const REQUESTED_TRAININGS = [
   { dept:"Operations TSJ",   topic:"Advanced PLC Programming",   by:"Mgr. K. Nair",  date:"May 01", priority:"High"   },
   { dept:"Safety, H & S",    topic:"Emergency Evacuation Drill", by:"Mgr. A. Patel", date:"Apr 28", priority:"Medium" },

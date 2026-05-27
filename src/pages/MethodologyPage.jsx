@@ -1,5 +1,9 @@
 import { useState } from "react";
 import C from "../theme";
+import { NAV_ITEMS } from "../data/navItems";
+import { USER } from "../data/userData";
+import { SKILL_NAMES } from "../data/learningData";
+import { GROUPS } from "../data/workData";
 
 /* ─── tiny reusable primitives ──────────────────────────────────────────── */
 const Tag = ({ label, color = C.blue }) => (
@@ -246,11 +250,11 @@ export default function MethodologyPage() {
       {/* ── stat strip ───────────────────────────────────────────────────── */}
       <div style={{ display:"grid", gridTemplateColumns:"repeat(5,1fr)", gap:12, marginBottom:40 }}>
         {[
-          { v:"8",    l:"Nav Pages",         c:C.blue   },
-          { v:"10",   l:"Components",        c:"#9B59B6"},
-          { v:"1",    l:"AI Model (Gemini)", c:"#18B982"},
-          { v:"16",   l:"Director Sections", c:C.accent },
-          { v:"100%", l:"Inline CSS (no lib)",c:C.text3 },
+          { v:String(NAV_ITEMS.length),                         l:"Nav Pages",         c:C.blue   },
+          { v:String(COMPONENTS.length),                        l:"System Components", c:"#9B59B6"},
+          { v:"1",                                              l:"AI Model (Gemini)", c:"#18B982"},
+          { v:String(GROUPS.reduce((s,g)=>s+g.tabs.length,0)), l:"Director Sections", c:C.accent },
+          { v:String(SKILL_NAMES.length),                       l:"Skill Domains",     c:C.text3  },
         ].map(({ v,l,c }) => (
           <div key={l} style={{ background:C.white, border:`1.5px solid ${C.border}`, borderRadius:14, padding:"16px", textAlign:"center" }}>
             <div style={{ fontSize:24, fontWeight:900, color:c, fontFamily:"'Playfair Display',serif" }}>{v}</div>
@@ -280,6 +284,55 @@ export default function MethodologyPage() {
             <p style={{ fontSize:12, color:C.text2, lineHeight:1.7, margin:0 }}>{body}</p>
           </div>
         ))}
+      </div>
+
+      {/* ── Platform Snapshot ────────────────────────────────────────────── */}
+      <div style={{ background:C.white, border:`1.5px solid ${C.border}`, borderRadius:14, padding:"24px", marginBottom:16 }}>
+        <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:16 }}>
+          <div style={{ fontSize:10, fontWeight:700, color:C.text3, textTransform:"uppercase", letterSpacing:"0.12em" }}>Live Platform Structure</div>
+          <div style={{ width:6, height:6, borderRadius:"50%", background:"#4ade80", boxShadow:"0 0 6px #4ade8080" }}/>
+          <div style={{ fontSize:9, color:"#18B982", fontWeight:600 }}>Auto-synced from source code</div>
+        </div>
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:20 }}>
+          <div>
+            <div style={{ fontSize:11, fontWeight:700, color:C.blue, marginBottom:8 }}>🧭 Navigation · {NAV_ITEMS.length} pages</div>
+            <div style={{ display:"flex", flexDirection:"column", gap:4 }}>
+              {NAV_ITEMS.map(item => (
+                <div key={item.id} style={{ display:"flex", alignItems:"center", gap:8, padding:"5px 10px", borderRadius:8, background:C.bg, border:`1px solid ${C.border}` }}>
+                  <span style={{ fontSize:14 }}>{item.icon}</span>
+                  <span style={{ fontSize:11, color:C.text }}>{item.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <div style={{ fontSize:11, fontWeight:700, color:C.accent, marginBottom:8 }}>🎓 Program Director · {GROUPS.reduce((s,g)=>s+g.tabs.length,0)} sub-sections</div>
+            <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
+              {GROUPS.map(g => (
+                <div key={g.id}>
+                  <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:4 }}>
+                    <span style={{ fontSize:13 }}>{g.icon}</span>
+                    <span style={{ fontSize:11, fontWeight:700, color:g.color }}>{g.label}</span>
+                    <span style={{ fontSize:9, padding:"1px 5px", borderRadius:6, background:`${g.color}18`, color:g.color, fontWeight:700 }}>{g.tabs.length}</span>
+                  </div>
+                  <div style={{ display:"flex", flexDirection:"column", gap:2, paddingLeft:18 }}>
+                    {g.tabs.map(t => (
+                      <div key={t.id} style={{ fontSize:10, color:C.text3, lineHeight:1.4 }}>· {t.label}</div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <div style={{ fontSize:11, fontWeight:700, color:"#18B982", marginBottom:8 }}>🎯 Skill Domains · {SKILL_NAMES.length} areas</div>
+            <div style={{ display:"flex", flexWrap:"wrap", gap:4 }}>
+              {SKILL_NAMES.map(s => (
+                <span key={s} style={{ padding:"3px 8px", borderRadius:10, background:`${C.blue}10`, border:`1px solid ${C.blue}20`, fontSize:9, color:C.text2, lineHeight:1.5 }}>{s}</span>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
       <Divider/>
@@ -323,7 +376,7 @@ export default function MethodologyPage() {
       <SectionHeader icon="🏗️" title="3 · High-Level Architecture" subtitle="The six layers that make up the ULIP platform stack, from browser to deployment infrastructure."/>
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, marginBottom:16 }}>
         <div style={{ display:"flex", flexDirection:"column", gap:4 }}>
-          <ArchLayer icon="🖥️" label="Frontend Layer"        tech="React 19 · Vite 8"             color={C.blue}    desc="Single-page application with 8 pages, 10 components, emoji-based icons, and 100% inline CSS styling. No external UI library." accent="#4ade80"/>
+          <ArchLayer icon="🖥️" label="Frontend Layer"        tech="React 19 · Vite 8"             color={C.blue}    desc={`Single-page application with ${NAV_ITEMS.length} pages, ${COMPONENTS.length} components, emoji-based icons, and 100% inline CSS styling. No external UI library.`} accent="#4ade80"/>
           <DownArrow/>
           <ArchLayer icon="🧭" label="State Router"           tech="App.jsx switch-case"            color={C.accent}  desc="In-memory navigation. Active page stored as a string; switch-case maps to React components. No URL changes." accent="#4ade80"/>
           <DownArrow/>
@@ -423,11 +476,11 @@ export default function MethodologyPage() {
             <div style={{ color:"#90CAF9" }}>{"// Identity"}</div>
             <div>You are <span style={{ color:"#FFD166" }}>TDA</span>, AI assistant in ULIP</div>
             <div style={{ color:"#90CAF9", marginTop:6 }}>{"// User Context"}</div>
-            <div>Name: <span style={{ color:"#A5D6A7" }}>Jay Pratap Singh</span></div>
-            <div>Role: <span style={{ color:"#A5D6A7" }}>Maintenance Engineer · IL4</span></div>
-            <div>Dept: <span style={{ color:"#A5D6A7" }}>TQM · H BF · TSN</span></div>
+            <div>Name: <span style={{ color:"#A5D6A7" }}>{USER.name}</span></div>
+            <div>Role: <span style={{ color:"#A5D6A7" }}>{USER.role} · {USER.level}</span></div>
+            <div>Dept: <span style={{ color:"#A5D6A7" }}>{USER.dept} · {USER.area} · {USER.plant}</span></div>
             <div style={{ color:"#90CAF9", marginTop:6 }}>{"// ULIP Content Catalog"}</div>
-            <div>20 skill domains, 9 content types</div>
+            <div>{SKILL_NAMES.length} skill domains, 9 content types</div>
             <div style={{ color:"#90CAF9", marginTop:6 }}>{"// Response Rules"}</div>
             <div>- 2–4 sentences, Tata Steel context</div>
             <div>- Connect topics to manufacturing</div>

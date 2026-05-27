@@ -5,7 +5,7 @@ import MicrolearningEngine from "../components/MicrolearningEngine";
 import LiveWorkUpdates from "../components/LiveWorkUpdates";
 import {
   SKILL_GAP_DATA, DEPT_FILTERS, LEVEL_FILTERS, BIZ_UNITS, OPR_LEVELS, NOPR_LEVELS,
-  CREATED_TRAININGS, ACTIVE_PROGRAMS, REQUESTED_TRAININGS,
+  CREATED_TRAININGS, ACTIVE_PROGRAMS, REQUESTED_TRAININGS, GROUPS,
 } from "../data/workData";
 
 export default function ProgramDirector() {
@@ -30,14 +30,6 @@ export default function ProgramDirector() {
   const SENT_DATA=[{month:"Jan",v:62},{month:"Feb",v:71},{month:"Mar",v:68},{month:"Apr",v:80},{month:"May",v:76}];
   const maxV=Math.max(...SENT_DATA.map(d=>d.v));
 
-  const GROUPS=[
-    { id:"analytics", icon:"📊", label:"Analytics & Insights",   color:C.blue,   desc:"Skill gaps, engagement trends, dashboards & AI insights",
-      tabs:[{id:"skillgap",label:"📊 Skill Gap Analysis"},{id:"sentiment",label:"📈 Sentiment & Effectiveness"},{id:"dashboard",label:"📊 Training Dashboard"},{id:"insights",label:"🧠 AI Insights"}] },
-    { id:"content",   icon:"✨", label:"Content Creation",        color:"#9B59B6", desc:"AI videos, microlearning, scenarios, gamified & case studies",
-      tabs:[{id:"content",label:"✨ AI Content Creator"},{id:"micro",label:"⚡ Microlearning Engine"},{id:"liveWork",label:"🏭 Live Work Updates"},{id:"scenario",label:"🎭 Scenario & Simulation"},{id:"gamified",label:"🎮 Gamified Creator"},{id:"casestudy",label:"⚡ Case Study / Incident"}] },
-    { id:"management",icon:"📅", label:"Training Management",     color:C.green,  desc:"Book, schedule, track & manage all training programs",
-      tabs:[{id:"book",label:"📅 Book Training"},{id:"calendar",label:"🗓 Training Calendar"},{id:"trainings",label:"📋 Past Trainings"},{id:"requests",label:"📥 Requested Trainings"},{id:"programs",label:"🟢 Active Programs"},{id:"campaign",label:"📣 Create Campaign"}] },
-  ];
   const activeGroup=GROUPS.find(g=>g.id===group);
 
   return (
