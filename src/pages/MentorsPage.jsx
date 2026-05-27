@@ -11,7 +11,7 @@ export default function MentorsPage() {
 
   return (
     <div style={{maxWidth:1100}}>
-      <h2 style={{fontSize:22,fontWeight:700,color:C.text,fontFamily:"'Playfair Display',serif",margin:"0 0 20px"}}>Find a Mentor</h2>
+      <h2 style={{fontSize:22,fontWeight:700,color:C.text,fontFamily:"'Playfair Display',serif",margin:"0 0 20px"}}>Find an SME</h2>
 
       {sel && (
         <div style={{position:"fixed",inset:0,background:"#0E172660",zIndex:200,display:"flex",alignItems:"center",justifyContent:"center",backdropFilter:"blur(4px)"}}>
@@ -20,7 +20,7 @@ export default function MentorsPage() {
               <div style={{textAlign:"center",padding:"20px 0"}}>
                 <div style={{fontSize:48,marginBottom:12}}>✅</div>
                 <div style={{fontSize:18,fontWeight:700,color:C.green}}>Request Sent!</div>
-                <div style={{fontSize:13,color:C.text3,marginTop:6,marginBottom:20}}>Your mentorship request was sent to {sel.name}</div>
+                <div style={{fontSize:13,color:C.text3,marginTop:6,marginBottom:20}}>Your SME session request was sent to {sel.name}</div>
                 <Btn onClick={()=>{setSent(false);setSel(null);setArea("");setMsg("");}}>Close</Btn>
               </div>
             ) : (
@@ -30,7 +30,7 @@ export default function MentorsPage() {
                   <div><div style={{fontSize:15,fontWeight:700,color:C.text}}>{sel.name}</div><div style={{fontSize:12,color:C.text3}}>{sel.dept}</div></div>
                   <button onClick={()=>setSel(null)} style={{marginLeft:"auto",width:30,height:30,borderRadius:"50%",background:C.bg,border:`1px solid ${C.border}`,cursor:"pointer",fontSize:14}}>✕</button>
                 </div>
-                <SLabel>Area of Mentorship *</SLabel>
+                <SLabel>Area of Expertise *</SLabel>
                 <input value={area} onChange={e=>setArea(e.target.value)} placeholder={`e.g. ${sel.skills[0]}, career guidance…`} style={{width:"100%",padding:"9px 12px",borderRadius:9,border:`1px solid ${C.border}`,fontSize:13,outline:"none",marginBottom:14}}/>
                 <SLabel>What kind of support are you looking for? *</SLabel>
                 <textarea value={msg} onChange={e=>setMsg(e.target.value)} placeholder="Describe your learning goals and what you'd like help with…" style={{width:"100%",minHeight:100,padding:"10px 12px",borderRadius:9,border:`1px solid ${C.border}`,fontSize:12,resize:"vertical",outline:"none",fontFamily:"'DM Sans',sans-serif",marginBottom:16}}/>
@@ -61,7 +61,7 @@ export default function MentorsPage() {
             </div>
             <div style={{display:"flex",gap:8}}>
               <Btn style={{flex:1,fontSize:11}} color={C.text3}>💬 Message</Btn>
-              <Btn variant="fill" color={C.blue} style={{flex:1,fontSize:11}} onClick={()=>setSel(m)}>Request Mentorship</Btn>
+              <Btn variant="fill" color={C.blue} style={{flex:1,fontSize:11}} onClick={()=>setSel(m)}>Request SME Session</Btn>
             </div>
           </Card>
         ))}

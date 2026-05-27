@@ -20,7 +20,7 @@ ULIP contains:
 - Skill Gap Analysis (tracks current vs required proficiency)
 - Learning Goals and journey roadmaps
 - Gigs (internal project opportunities)
-- Mentors (senior experts available for sessions)
+- SMEs (subject matter experts available for sessions)
 - Jobs (internal openings with skill match %)
 - Communities (social learning feed)
 - Program Director (trainer tools for content creation and analytics)
@@ -33,7 +33,11 @@ Your job:
 - For safety, engineering, TPM, lean, quality, and industrial topics — give detailed, Tata Steel-relevant answers and suggest specific ULIP content
 - Be encouraging, conversational, and professional
 - Keep responses concise (2–4 sentences) unless detail is genuinely needed
-- Suggest relevant ULIP microlearnings, courses, or mentors when helpful`;
+- Suggest relevant ULIP microlearnings, courses, or SMEs when helpful
+
+IMPORTANT: At the end of EVERY response, on its own line, append exactly this (no extra spaces):
+SUGGESTIONS:{"micro":"<a relevant microlearning title>","course":"<a relevant course title>"}
+Pick titles that are realistic ULIP content names related to the topic discussed.`;
 
 export default function TDAChatbot() {
   const [open, setOpen] = useState(false);
@@ -83,10 +87,13 @@ export default function TDAChatbot() {
       });
 
       const data = await res.json();
-      const reply =
+      const raw =
         data?.candidates?.[0]?.content?.parts?.[0]?.text ||
         "Sorry, I couldn't get a response. Please try again.";
-      setMsgs(p => [...p, { from: "bot", text: reply }]);
+      const suggMatch = raw.match(/SUGGESTIONS:\{"micro":"([^"]+)","course":"([^"]+)"\}/);
+      const suggestions = suggMatch ? { micro: suggMatch[1], course: suggMatch[2] } : null;
+      const reply = raw.replace(/\nSUGGESTIONS:\{.*?\}/, "").trim();
+      setMsgs(p => [...p, { from: "bot", text: reply, suggestions }]);
     } catch {
       setMsgs(p => [...p, { from: "bot", text: "Connection error. Please check your network and try again." }]);
     } finally {
@@ -98,7 +105,7 @@ export default function TDAChatbot() {
     <>
       <div
         onClick={() => setOpen(p => !p)}
-        style={{ position: "fixed", bottom: 28, right: 28, width: 52, height: 52, borderRadius: "50%", background: `linear-gradient(135deg,${C.blue},${C.blue2})`, boxShadow: `0 4px 20px ${C.blue}50`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, cursor: "pointer", zIndex: 500 }}
+        style={{ position: "fixed", bottom: 28, right: 28, width: 56, height: 56, borderRadius: "50%", background: `linear-gradient(135deg,${C.blue},${C.blue2})`, boxShadow: `0 4px 24px ${C.blue}60`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26, cursor: "pointer", zIndex: 500 }}
       >
         {open ? "✕" : "🧠"}
       </div>
@@ -125,8 +132,23 @@ export default function TDAChatbot() {
                 {m.from === "bot" && (
                   <div style={{ width: 24, height: 24, borderRadius: "50%", background: C.blue3, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, flexShrink: 0 }}>🧠</div>
                 )}
-                <div style={{ maxWidth: "80%", padding: "9px 12px", borderRadius: 12, background: m.from === "user" ? C.blue : C.bg, color: m.from === "user" ? "#fff" : C.text, fontSize: 12, lineHeight: 1.6, borderBottomRightRadius: m.from === "user" ? 2 : 12, borderBottomLeftRadius: m.from === "bot" ? 2 : 12, whiteSpace: "pre-wrap" }}>
-                  {m.text}
+                <div style={{ maxWidth: "80%", display: "flex", flexDirection: "column", gap: 6 }}>
+                  <div style={{ padding: "9px 12px", borderRadius: 12, background: m.from === "user" ? C.blue : C.bg, color: m.from === "user" ? "#fff" : C.text, fontSize: 12, lineHeight: 1.6, borderBottomRightRadius: m.from === "user" ? 2 : 12, borderBottomLeftRadius: m.from === "bot" ? 2 : 12, whiteSpace: "pre-wrap" }}>
+                    {m.text}
+                  </div>
+                  {m.suggestions && (
+                    <div style={{ padding: "8px 12px", borderRadius: 10, background: C.blue3, border: `1px solid ${C.blue4}`, fontSize: 11 }}>
+                      <div style={{ fontWeight: 700, color: C.blue, marginBottom: 5, fontSize: 10, textTransform: "uppercase", letterSpacing: "0.08em" }}>📚 Suggested on ULIP</div>
+                      <div style={{ marginBottom: 4 }}>
+                        <span style={{ color: C.text3, fontSize: 10 }}>⚡ Microlearning — </span>
+                        <a href="#" style={{ color: C.blue, fontWeight: 600, textDecoration: "underline", cursor: "pointer" }}>{m.suggestions.micro}</a>
+                      </div>
+                      <div>
+                        <span style={{ color: C.text3, fontSize: 10 }}>📘 Course — </span>
+                        <a href="#" style={{ color: C.blue, fontWeight: 600, textDecoration: "underline", cursor: "pointer" }}>{m.suggestions.course}</a>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

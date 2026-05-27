@@ -22,6 +22,23 @@ export default function ULIP() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [active, setActive] = useState("home");
   const [showMicro, setShowMicro] = useState(false);
+  const [notifications, setNotifications] = useState([
+    { icon:"⚡", text:"Daily Microlearning ready: Autonomous Maintenance", time:"Now",     u:true,  action:"micro" },
+    { icon:"📚", text:"New course assigned: PLC Level 2",                  time:"10m ago", u:true  },
+    { icon:"🏅", text:"You earned Gold badge in Analytics",                time:"1h ago",  u:true  },
+    { icon:"📣", text:"AURA Circles Phase 1 kick-off now",                 time:"3h ago",  u:true  },
+    { icon:"🔔", text:"Safety cert expiring in 18 days",                   time:"1d ago",  u:false },
+  ]);
+
+  const addNotification = (notif) => setNotifications(p => [notif, ...p]);
+
+  const handleNotifClick = (n) => {
+    if (n.action === "micro") setShowMicro(true);
+  };
+
+  const handleXPEarned = () => {
+    addNotification({ icon:"🏆", text:"+5 XP earned in TQM · Autonomous Maintenance", time:"Just now", u:true });
+  };
 
   useEffect(() => {
     if (loggedIn) {
@@ -60,12 +77,12 @@ export default function ULIP() {
       <div style={{ display: "flex", height: "100vh", background: C.bg }}>
         <Sidebar active={active} setActive={setActive} />
         <main style={{ flex: 1, overflowY: "auto", padding: "20px 28px" }}>
-          <TopBar />
+          <TopBar notifications={notifications} onNotifClick={handleNotifClick} />
           {renderPage()}
         </main>
       </div>
       <TDAChatbot />
-      {showMicro && <MicrolearningPopup onClose={() => setShowMicro(false)} />}
+      {showMicro && <MicrolearningPopup onClose={() => setShowMicro(false)} onXPEarned={handleXPEarned} />}
     </>
   );
 }

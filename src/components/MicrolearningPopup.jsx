@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import C from "../theme";
+import { USER } from "../data/userData";
 
 const TQM_MICRO = {
   skill: "TQM",
@@ -26,7 +27,7 @@ const TQM_MICRO = {
   correct: "c",
 };
 
-export default function MicrolearningPopup({ onClose }) {
+export default function MicrolearningPopup({ onClose, onXPEarned }) {
   const [phase, setPhase] = useState("watch");
   const [selected, setSelected] = useState(null);
   const [submitted, setSubmitted] = useState(false);
@@ -37,6 +38,12 @@ export default function MicrolearningPopup({ onClose }) {
     setSubmitted(true);
     setTimeout(() => setPhase("result"), 600);
   };
+
+  useEffect(() => {
+    if (phase === "result" && isCorrect) {
+      onXPEarned?.();
+    }
+  }, [phase]);
 
   return (
     <div style={{
@@ -185,7 +192,7 @@ export default function MicrolearningPopup({ onClose }) {
               {isCorrect ? (
                 <>
                   <div style={{fontSize:72,marginBottom:16,animation:"popIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275)"}}>🎉</div>
-                  <div style={{fontSize:22,fontWeight:800,color:C.green,fontFamily:"'Playfair Display',serif",marginBottom:8}}>Great job, Vikram!</div>
+                  <div style={{fontSize:22,fontWeight:800,color:C.green,fontFamily:"'Playfair Display',serif",marginBottom:8}}>Great job, {USER.firstName}!</div>
                   <div style={{fontSize:14,color:C.text2,marginBottom:24,lineHeight:1.6}}>That's correct! Step 7 – Full Autonomous Management is when operators take complete ownership of their equipment.</div>
                   <div style={{
                     background:"linear-gradient(135deg,#003D6B,#0080C7)",

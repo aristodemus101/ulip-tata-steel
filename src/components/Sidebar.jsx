@@ -36,7 +36,7 @@ export default function Sidebar({ active, setActive }) {
           }}>
             <span style={{ fontSize:20, width:30, height:30, display:"flex", alignItems:"center", justifyContent:"center", borderRadius:8, background:active===item.id?"rgba(255,255,255,0.2)":"rgba(255,255,255,0.08)", flexShrink:0 }}>{item.icon}</span>
             {item.label}
-            {item.id==="director" && <span style={{ marginLeft:"auto", fontSize:9, padding:"1px 5px", borderRadius:8, background:"rgba(245,166,35,0.25)", color:"#FFD166", fontWeight:700 }}>PRO</span>}
+            {item.id==="director" && <span style={{ marginLeft:"auto", fontSize:9, padding:"1px 5px", borderRadius:8, background:"rgba(245,166,35,0.25)", color:"#FFD166", fontWeight:700 }}>ADMIN</span>}
           </button>
         ))}
       </nav>

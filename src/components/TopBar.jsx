@@ -3,17 +3,11 @@ import C from "../theme";
 import { TataLogoSVG } from "./Logos";
 import ProfileAvatar from "./ProfileAvatar";
 
-export default function TopBar() {
+export default function TopBar({ notifications = [], onNotifClick }) {
   const [notifOpen, setNotifOpen] = useState(false);
   const [profOpen,  setProfOpen]  = useState(false);
   const [q, setQ] = useState("");
-
-  const NOTIFS = [
-    { icon:"📚", text:"New course assigned: PLC Level 2",      time:"10m ago", u:true  },
-    { icon:"🏅", text:"You earned Gold badge in Analytics",    time:"1h ago",  u:true  },
-    { icon:"📣", text:"AURA Circles Phase 1 kick-off now",     time:"3h ago",  u:true  },
-    { icon:"🔔", text:"Safety cert expiring in 18 days",       time:"1d ago",  u:false },
-  ];
+  const unreadCount = notifications.filter(n => n.u).length;
 
   return (
     <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:22, paddingBottom:14, borderBottom:`1px solid ${C.border}` }}>
@@ -30,17 +24,20 @@ export default function TopBar() {
       <div style={{ position:"relative" }}>
         <button onClick={()=>{ setNotifOpen(p=>!p); setProfOpen(false); }} style={{ width:36, height:36, borderRadius:"50%", background:C.bg, border:`1px solid ${C.border}`, display:"flex", alignItems:"center", justifyContent:"center", cursor:"pointer", fontSize:16, position:"relative" }}>
           🔔
-          <span style={{ position:"absolute", top:2, right:2, width:8, height:8, borderRadius:"50%", background:C.red, border:"2px solid #fff" }}/>
+          {unreadCount>0 && <span style={{ position:"absolute", top:2, right:2, width:8, height:8, borderRadius:"50%", background:C.red, border:"2px solid #fff" }}/>}
         </button>
         {notifOpen && (
-          <div style={{ position:"absolute", right:0, top:44, width:300, background:C.white, border:`1px solid ${C.border}`, borderRadius:12, boxShadow:"0 8px 24px #0E172618", zIndex:200 }}>
-            <div style={{ padding:"12px 16px", borderBottom:`1px solid ${C.border}`, fontSize:13, fontWeight:700, color:C.text }}>Notifications</div>
-            {NOTIFS.map((n,i)=>(
-              <div key={i} style={{ display:"flex", gap:10, padding:"10px 16px", borderBottom:i<NOTIFS.length-1?`1px solid ${C.border}`:"none", background:n.u?C.blue3:C.white }}>
+          <div style={{ position:"absolute", right:0, top:44, width:320, background:C.white, border:`1px solid ${C.border}`, borderRadius:12, boxShadow:"0 8px 24px #0E172618", zIndex:200, maxHeight:420, overflowY:"auto" }}>
+            <div style={{ padding:"12px 16px", borderBottom:`1px solid ${C.border}`, fontSize:13, fontWeight:700, color:C.text, position:"sticky", top:0, background:C.white }}>
+              Notifications {unreadCount>0 && <span style={{ marginLeft:6, padding:"1px 7px", borderRadius:10, background:C.red, color:"#fff", fontSize:10, fontWeight:700 }}>{unreadCount}</span>}
+            </div>
+            {notifications.map((n,i)=>(
+              <div key={i} onClick={()=>{ if(n.action) { onNotifClick?.(n); setNotifOpen(false); } }}
+                style={{ display:"flex", gap:10, padding:"10px 16px", borderBottom:i<notifications.length-1?`1px solid ${C.border}`:"none", background:n.u?C.blue3:C.white, cursor:n.action?"pointer":"default" }}>
                 <span style={{ fontSize:18 }}>{n.icon}</span>
                 <div style={{ flex:1 }}>
-                  <div style={{ fontSize:12, color:C.text }}>{n.text}</div>
-                  <div style={{ fontSize:10, color:C.text3, marginTop:2 }}>{n.time}</div>
+                  <div style={{ fontSize:12, color:C.text, fontWeight:n.action?600:400 }}>{n.text}</div>
+                  <div style={{ fontSize:10, color:C.text3, marginTop:2 }}>{n.time}{n.action && <span style={{ marginLeft:6, color:C.blue, fontWeight:600 }}>Tap to open →</span>}</div>
                 </div>
                 {n.u && <div style={{ width:7, height:7, borderRadius:"50%", background:C.blue, flexShrink:0, marginTop:4 }}/>}
               </div>

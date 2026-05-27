@@ -1,6 +1,7 @@
 import C from "../theme";
 import { Card } from "../components/ui";
 import { REC_LEARNINGS, POPULAR_MICRO, CALENDAR_EVENTS, ONGOING_TRAININGS } from "../data/learningData";
+import { MENTOR_LIST } from "../data/workData";
 import { USER } from "../data/userData";
 
 export default function HomePage() {
@@ -150,26 +151,29 @@ export default function HomePage() {
         </Card>
 
         <Card pad={0} style={{overflow:"hidden"}}>
-          <div style={{padding:"14px 16px",borderBottom:`1px solid ${C.border}`,background:"#F0FBF6"}}>
-            <div style={{fontSize:12,fontWeight:700,color:C.green}}>📅 Upcoming Programs</div>
-            <div style={{fontSize:10,color:C.text3,marginTop:2}}>Your eligible trainings</div>
+          <div style={{padding:"14px 16px",borderBottom:`1px solid ${C.border}`,background:"#FFF5F0"}}>
+            <div style={{fontSize:12,fontWeight:700,color:"#FF6B35"}}>🧑‍🔬 Recommended SMEs</div>
+            <div style={{fontSize:10,color:C.text3,marginTop:2}}>Connect with subject matter experts</div>
           </div>
           <div style={{overflowY:"auto",maxHeight:340}}>
-            {CALENDAR_EVENTS.map((e,i)=>(
-              <div key={i} style={{padding:"10px 14px",borderBottom:i<CALENDAR_EVENTS.length-1?`1px solid ${C.border}`:"none"}}>
-                <div style={{display:"flex",gap:10,alignItems:"flex-start",marginBottom:4}}>
-                  <div style={{background:C.blue3,color:C.blue,borderRadius:8,padding:"4px 8px",fontSize:10,fontWeight:700,minWidth:50,textAlign:"center",lineHeight:1.3,flexShrink:0}}>{e.date}</div>
+            {MENTOR_LIST.map((m,i)=>(
+              <div key={i} style={{padding:"12px 14px",borderBottom:i<MENTOR_LIST.length-1?`1px solid ${C.border}`:"none"}}>
+                <div style={{display:"flex",gap:10,alignItems:"center",marginBottom:6}}>
+                  <div style={{width:38,height:38,borderRadius:"50%",background:`linear-gradient(135deg,${m.color},${m.color}bb)`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:700,color:"#fff",flexShrink:0}}>{m.avatar}</div>
                   <div style={{flex:1}}>
-                    <div style={{fontSize:12,fontWeight:600,color:C.text}}>{e.topic}</div>
-                    <div style={{fontSize:10,color:C.text3,marginTop:1}}>{e.mode} · {e.location}</div>
+                    <div style={{fontSize:12,fontWeight:700,color:C.text}}>{m.name}</div>
+                    <div style={{fontSize:10,color:C.text3}}>{m.dept} · {m.exp}</div>
                   </div>
                 </div>
-                <div style={{fontSize:11,color:C.text2,lineHeight:1.5,paddingLeft:60}}>{e.desc}</div>
+                <div style={{fontSize:11,fontWeight:600,color:C.text2,marginBottom:5}}>📌 {m.area}</div>
+                <div style={{display:"flex",gap:4,flexWrap:"wrap"}}>
+                  {m.skills.map(s=><span key={s} style={{padding:"2px 7px",borderRadius:8,background:`${m.color}15`,color:m.color,fontSize:9,fontWeight:700}}>{s}</span>)}
+                </div>
               </div>
             ))}
           </div>
           <div style={{padding:"10px 14px",borderTop:`1px solid ${C.border}`}}>
-            <button style={{width:"100%",padding:"8px",borderRadius:8,border:`1.5px solid ${C.green}`,background:"transparent",color:C.green,fontSize:12,fontWeight:600,cursor:"pointer"}}>View Full Calendar →</button>
+            <button style={{width:"100%",padding:"8px",borderRadius:8,border:"1.5px solid #FF6B35",background:"transparent",color:"#FF6B35",fontSize:12,fontWeight:600,cursor:"pointer"}}>Browse All SMEs →</button>
           </div>
         </Card>
       </div>
@@ -179,7 +183,7 @@ export default function HomePage() {
         {[
           { color:C.green, icon:"💬", title:"Real-time Feedback", text:"Have you recently given a presentation, managed a project, or stretched yourself? Ask for feedback on how you did.", link:"Request feedback" },
           { color:C.blue,  icon:"🎯", title:"Goals",              text:"Set learning goals to help you grow. Establish milestones, track your progress, invite supporters, and more.",      link:"Create a goal" },
-          { color:C.accent,icon:"✦",  title:"Explore ULIP",       links:["My activity","Mentors","Profile","Feedback","Contact us"] },
+          { color:C.accent,icon:"✦",  title:"Explore ULIP",       links:["My activity","SMEs","Profile","Feedback","Contact us"] },
         ].map((tile,i)=>(
           <div key={i} style={{background:`linear-gradient(145deg,${tile.color}12,${C.white})`,border:`1.5px solid ${tile.color}35`,borderRadius:16,padding:24,position:"relative",overflow:"hidden"}}>
             <div style={{position:"absolute",top:-16,right:-16,width:80,height:80,borderRadius:"50%",background:`${tile.color}10`}}/>
