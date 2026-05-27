@@ -301,7 +301,7 @@ export default function ManagerViewPage() {
       </div>
 
       {/* ── Section 1: Team Capability Snapshot ─────────────────────────── */}
-      <div style={{display:"grid",gridTemplateColumns:"auto 1fr 210px",gap:16,marginBottom:24}}>
+      <div style={{display:"grid",gridTemplateColumns:"auto 1fr",gap:16,marginBottom:24}}>
 
         {/* Radar */}
         <div style={{background:C.white,border:`1.5px solid ${C.border}`,borderRadius:14,padding:"16px 16px 8px",display:"flex",flexDirection:"column",alignItems:"center"}}>
@@ -346,32 +346,6 @@ export default function ManagerViewPage() {
           </div>
         </div>
 
-        {/* Top performers + Cert */}
-        <div style={{display:"flex",flexDirection:"column",gap:12}}>
-          <div style={{background:C.white,border:`1.5px solid ${C.border}`,borderRadius:14,padding:"14px",flex:1}}>
-            <div style={{fontSize:10,fontWeight:700,color:C.text3,textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:10}}>🏆 Top Learners</div>
-            {[...TEAM].sort((a,b)=>b.xp-a.xp).slice(0,3).map((m,i)=>(
-              <div key={m.name} style={{display:"flex",alignItems:"center",gap:7,marginBottom:i<2?8:0}}>
-                <div style={{fontSize:12,color:["#F5A623","#8A94A6","#C87941"][i],fontWeight:700,width:16}}>{"①②③"[i]}</div>
-                <Av m={m} size={22}/>
-                <div style={{flex:1}}>
-                  <div style={{fontSize:10,fontWeight:700,color:C.text}}>{m.name.split(" ")[0]}</div>
-                  <div style={{fontSize:9,color:C.text3}}>{m.xp.toLocaleString()} XP</div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div style={{background:C.white,border:`1.5px solid ${C.border}`,borderRadius:14,padding:"14px",flex:1}}>
-            <div style={{fontSize:10,fontWeight:700,color:C.text3,textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:10}}>📜 Certifications</div>
-            {TEAM.map(m=>(
-              <div key={m.name} style={{display:"flex",alignItems:"center",gap:6,marginBottom:7}}>
-                <Av m={m} size={20}/>
-                <span style={{flex:1,fontSize:10,fontWeight:600,color:C.text}}>{m.name.split(" ")[0]}</span>
-                <span style={{padding:"1px 6px",borderRadius:6,background:`${certCol(m.certStatus)}15`,color:certCol(m.certStatus),fontSize:8,fontWeight:700,whiteSpace:"nowrap"}}>{certLbl(m.certStatus)}</span>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
 
       {/* ── Section 2: Heatmap ──────────────────────────────────────────── */}
@@ -444,32 +418,59 @@ export default function ManagerViewPage() {
 
       {/* ── Section 3: Gap Analysis + AI Actions ────────────────────────── */}
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16,marginBottom:24}}>
-        <div style={{background:C.white,border:`1.5px solid ${C.border}`,borderRadius:14,padding:"18px"}}>
-          <div style={{fontSize:11,fontWeight:700,color:C.text3,textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:14}}>📉 Skill Gap Analysis</div>
-          <div style={{display:"flex",flexDirection:"column",gap:12}}>
-            {SKILLS.map(k=>{
-              const a=teamAvg(k);
-              const RR=Math.round(TEAM.reduce((s,m)=>s+(ROLE_REQ[m.role]?.[k]||80),0)/TEAM.length);
-              const gap=RR-a, color=ragCol(a);
-              return (
-                <div key={k}>
-                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:5}}>
-                    <span style={{fontSize:11,fontWeight:600,color:C.text}}>{k}</span>
-                    <div style={{display:"flex",gap:8,alignItems:"center"}}>
-                      <span style={{fontSize:10,color:C.text3}}>Avg <b style={{color}}>{a}%</b></span>
-                      <span style={{fontSize:10,color:C.text3}}>Req <b style={{color:C.blue}}>{RR}%</b></span>
-                      <span style={{fontSize:9,padding:"1px 6px",borderRadius:6,background:gap>0?"#E5484D12":"#18B98212",color:gap>0?"#E5484D":"#18B982",fontWeight:700}}>
-                        {gap>0?`-${gap}pts`:"✓"}
-                      </span>
+        <div style={{display:"flex",flexDirection:"column",gap:12}}>
+          <div style={{background:C.white,border:`1.5px solid ${C.border}`,borderRadius:14,padding:"18px"}}>
+            <div style={{fontSize:11,fontWeight:700,color:C.text3,textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:14}}>📉 Skill Gap Analysis</div>
+            <div style={{display:"flex",flexDirection:"column",gap:12}}>
+              {SKILLS.map(k=>{
+                const a=teamAvg(k);
+                const RR=Math.round(TEAM.reduce((s,m)=>s+(ROLE_REQ[m.role]?.[k]||80),0)/TEAM.length);
+                const gap=RR-a, color=ragCol(a);
+                return (
+                  <div key={k}>
+                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:5}}>
+                      <span style={{fontSize:11,fontWeight:600,color:C.text}}>{k}</span>
+                      <div style={{display:"flex",gap:8,alignItems:"center"}}>
+                        <span style={{fontSize:10,color:C.text3}}>Avg <b style={{color}}>{a}%</b></span>
+                        <span style={{fontSize:10,color:C.text3}}>Req <b style={{color:C.blue}}>{RR}%</b></span>
+                        <span style={{fontSize:9,padding:"1px 6px",borderRadius:6,background:gap>0?"#E5484D12":"#18B98212",color:gap>0?"#E5484D":"#18B982",fontWeight:700}}>
+                          {gap>0?`-${gap}pts`:"✓"}
+                        </span>
+                      </div>
+                    </div>
+                    <div style={{height:9,background:C.bg,borderRadius:4,overflow:"hidden",position:"relative"}}>
+                      <div style={{position:"absolute",left:0,top:0,height:"100%",width:`${RR}%`,background:`${C.blue}18`,borderRadius:4}}/>
+                      <div style={{position:"absolute",left:0,top:0,height:"100%",width:`${a}%`,background:color,borderRadius:4}}/>
                     </div>
                   </div>
-                  <div style={{height:9,background:C.bg,borderRadius:4,overflow:"hidden",position:"relative"}}>
-                    <div style={{position:"absolute",left:0,top:0,height:"100%",width:`${RR}%`,background:`${C.blue}18`,borderRadius:4}}/>
-                    <div style={{position:"absolute",left:0,top:0,height:"100%",width:`${a}%`,background:color,borderRadius:4}}/>
+                );
+              })}
+            </div>
+          </div>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+            <div style={{background:C.white,border:`1.5px solid ${C.border}`,borderRadius:14,padding:"14px"}}>
+              <div style={{fontSize:10,fontWeight:700,color:C.text3,textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:10}}>🏆 Top Learners</div>
+              {[...TEAM].sort((a,b)=>b.xp-a.xp).slice(0,3).map((m,i)=>(
+                <div key={m.name} style={{display:"flex",alignItems:"center",gap:7,marginBottom:i<2?8:0}}>
+                  <div style={{fontSize:12,color:["#F5A623","#8A94A6","#C87941"][i],fontWeight:700,width:16}}>{"①②③"[i]}</div>
+                  <Av m={m} size={22}/>
+                  <div style={{flex:1}}>
+                    <div style={{fontSize:10,fontWeight:700,color:C.text}}>{m.name.split(" ")[0]}</div>
+                    <div style={{fontSize:9,color:C.text3}}>{m.xp.toLocaleString()} XP</div>
                   </div>
                 </div>
-              );
-            })}
+              ))}
+            </div>
+            <div style={{background:C.white,border:`1.5px solid ${C.border}`,borderRadius:14,padding:"14px"}}>
+              <div style={{fontSize:10,fontWeight:700,color:C.text3,textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:10}}>📜 Certifications</div>
+              {TEAM.map(m=>(
+                <div key={m.name} style={{display:"flex",alignItems:"center",gap:6,marginBottom:7}}>
+                  <Av m={m} size={20}/>
+                  <span style={{flex:1,fontSize:10,fontWeight:600,color:C.text}}>{m.name.split(" ")[0]}</span>
+                  <span style={{padding:"1px 6px",borderRadius:6,background:`${certCol(m.certStatus)}15`,color:certCol(m.certStatus),fontSize:8,fontWeight:700,whiteSpace:"nowrap"}}>{certLbl(m.certStatus)}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
         <div style={{background:C.white,border:`1.5px solid ${C.border}`,borderRadius:14,padding:"18px"}}>
