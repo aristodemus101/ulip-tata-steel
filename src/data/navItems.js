@@ -7,4 +7,5 @@ export const NAV_ITEMS = [
   { id:"jobs",        icon:"💼", label:"Jobs" },
   { id:"communities", icon:"🌐", label:"Communities" },
   { id:"director",    icon:"🎓", label:"Program Director" },
+  { id:"methodology", icon:"📖", label:"Methodology" },
 ];
