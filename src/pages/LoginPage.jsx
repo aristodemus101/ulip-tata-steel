@@ -67,7 +67,7 @@ export default function LoginPage({ onLogin, onContractorLogin }) {
               <div style={{ width:46, height:46, borderRadius:12, background:`linear-gradient(135deg,${C.blue},${C.blue2})`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}>🧑‍💼</div>
               <div style={{ flex:1 }}>
                 <div style={{ fontSize:14, fontWeight:700, color:C.text }}>Login for OPR / NOPR</div>
-                <div style={{ fontSize:11, color:C.text3, marginTop:2 }}>IL & NS levels · Full platform access</div>
+                <div style={{ fontSize:11, color:C.text3, marginTop:2 }}>OPR / NOPR · IL & NS levels</div>
               </div>
               <span style={{ fontSize:18, color:C.blue, fontWeight:700 }}>→</span>
             </div>

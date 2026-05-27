@@ -18,6 +18,7 @@ import JobsPage from "./pages/JobsPage";
 import CommunitiesPage from "./pages/CommunitiesPage";
 import ProgramDirector from "./pages/ProgramDirector";
 import MethodologyPage from "./pages/MethodologyPage";
+import ManagerViewPage from "./pages/ManagerViewPage";
 import PlaceholderPage from "./pages/PlaceholderPage";
 
 export default function ULIP() {
@@ -71,6 +72,7 @@ export default function ULIP() {
       case "communities": return <CommunitiesPage />;
       case "director":    return <ProgramDirector />;
       case "methodology": return <MethodologyPage />;
+      case "manager":     return <ManagerViewPage />;
       default:            return <PlaceholderPage label={NAV_ITEMS.find(n => n.id === active)?.label || active} />;
     }
   };
