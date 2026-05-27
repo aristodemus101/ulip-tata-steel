@@ -23,7 +23,14 @@ import PlaceholderPage from "./pages/PlaceholderPage";
 export default function ULIP() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [contractorLoggedIn, setContractorLoggedIn] = useState(false);
-  const [active, setActive] = useState("home");
+  const VALID_IDS = NAV_ITEMS.map(n => n.id);
+  const hashPage = window.location.hash.slice(1);
+  const [active, setActive] = useState(VALID_IDS.includes(hashPage) ? hashPage : "home");
+
+  const navigate = (id) => {
+    setActive(id);
+    window.history.replaceState(null, "", `#${id}`);
+  };
   const [showMicro, setShowMicro] = useState(false);
   const [notifications, setNotifications] = useState([
     { icon:"⚡", text:"Daily Microlearning ready: Autonomous Maintenance", time:"Now",     u:true,  action:"micro" },
@@ -80,7 +87,7 @@ export default function ULIP() {
         a { text-decoration: none; }
       `}</style>
       <div style={{ display: "flex", height: "100vh", background: C.bg }}>
-        <Sidebar active={active} setActive={setActive} />
+        <Sidebar active={active} setActive={navigate} />
         <main style={{ flex: 1, overflowY: "auto", padding: "20px 28px" }}>
           <TopBar notifications={notifications} onNotifClick={handleNotifClick} />
           {renderPage()}
