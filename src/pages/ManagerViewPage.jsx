@@ -68,58 +68,56 @@ const Av = ({m,size=26}) => (
 /* ─── Radar Chart with hover tooltips ───────────────────────────────────────── */
 function RadarChart() {
   const [tip, setTip] = useState(null);
-  const cx=150, cy=150, r=88, n=SKILLS.length;
+  const cx=200, cy=185, r=90, n=SKILLS.length;
   const angle = i => (i*2*Math.PI/n) - Math.PI/2;
   const pt    = (i,pct) => [cx + r*pct*Math.cos(angle(i)), cy + r*pct*Math.sin(angle(i))];
   const avgPts = SKILLS.map((_,i)=>pt(i,teamAvg(SKILLS[i])/100).join(",")).join(" ");
   const reqPts = SKILLS.map((k,i)=>{ const RR=TEAM.reduce((s,m)=>s+(ROLE_REQ[m.role]?.[k]||85),0)/TEAM.length; return pt(i,RR/100).join(","); }).join(" ");
 
   return (
-    <div style={{padding:"14px 40px 14px 40px",overflow:"visible"}}>
-      <svg width={300} height={300} style={{overflow:"visible"}}>
-        {[0.25,0.5,0.75,1].map(lv=>(
-          <polygon key={lv} points={SKILLS.map((_,i)=>pt(i,lv).join(",")).join(" ")} fill="none" stroke="#DDE6EF" strokeWidth={1}/>
-        ))}
-        {SKILLS.map((_,i)=>{const [x,y]=pt(i,1);return <line key={i} x1={cx} y1={cy} x2={x} y2={y} stroke="#DDE6EF" strokeWidth={1}/>;})  }
-        <polygon points={reqPts} fill="rgba(245,166,35,0.07)" stroke="#F5A623" strokeWidth={1.5} strokeDasharray="4 3"/>
-        <polygon points={avgPts} fill="rgba(0,128,199,0.18)" stroke="#0080C7" strokeWidth={2}/>
-        {SKILLS.map((k,i)=>{
-          const [x,y]=pt(i,teamAvg(k)/100);
-          const isHov = tip?.i===i;
-          return (
-            <circle key={i} cx={x} cy={y} r={isHov?6:4}
-              fill={isHov?"#003D6B":C.blue} stroke="#fff" strokeWidth={1.5}
-              style={{cursor:"pointer",transition:"r 0.15s"}}
-              onMouseEnter={()=>setTip({i,x,y,k,v:teamAvg(k)})}
-              onMouseLeave={()=>setTip(null)}
-            />
-          );
-        })}
-        {tip && (()=>{
-          const {x,y,k,v}=tip;
-          const tw=84, th=34;
-          const tx = x<cx ? x-tw-8 : x+8;
-          const ty = Math.min(290-th, Math.max(0, y-th/2));
-          return (
-            <g style={{pointerEvents:"none"}}>
-              <rect x={tx} y={ty} width={tw} height={th} rx={7} fill="#001E3C" opacity={0.92}/>
-              <text x={tx+tw/2} y={ty+11} textAnchor="middle" fontSize={9} fill="rgba(255,255,255,0.7)" fontFamily="'DM Sans',sans-serif">{k}</text>
-              <text x={tx+tw/2} y={ty+25} textAnchor="middle" fontSize={13} fontWeight={800} fill="#FFD166" fontFamily="'DM Sans',sans-serif">{v}%</text>
-            </g>
-          );
-        })()}
-        {SKILLS.map((k,i)=>{
-          const [x,y]=pt(i,1.38);
-          const anchor = x<cx-5?"end":x>cx+5?"start":"middle";
-          return (
-            <text key={i} x={x} y={y} textAnchor={anchor} dominantBaseline="middle"
-              fontSize={9} fontWeight={600} fill="#5A7184" fontFamily="'DM Sans',sans-serif">{k}</text>
-          );
-        })}
-        <text x={cx} y={cy-6} textAnchor="middle" fontSize={9} fontWeight={700} fill={C.blue} fontFamily="'DM Sans',sans-serif">Team</text>
-        <text x={cx} y={cy+7} textAnchor="middle" fontSize={9} fontWeight={700} fill={C.blue} fontFamily="'DM Sans',sans-serif">Avg</text>
-      </svg>
-    </div>
+    <svg width={400} height={370}>
+      {[0.25,0.5,0.75,1].map(lv=>(
+        <polygon key={lv} points={SKILLS.map((_,i)=>pt(i,lv).join(",")).join(" ")} fill="none" stroke="#DDE6EF" strokeWidth={1}/>
+      ))}
+      {SKILLS.map((_,i)=>{const [x,y]=pt(i,1);return <line key={i} x1={cx} y1={cy} x2={x} y2={y} stroke="#DDE6EF" strokeWidth={1}/>;})  }
+      <polygon points={reqPts} fill="rgba(245,166,35,0.07)" stroke="#F5A623" strokeWidth={1.5} strokeDasharray="4 3"/>
+      <polygon points={avgPts} fill="rgba(0,128,199,0.18)" stroke="#0080C7" strokeWidth={2}/>
+      {SKILLS.map((k,i)=>{
+        const [x,y]=pt(i,teamAvg(k)/100);
+        const isHov = tip?.i===i;
+        return (
+          <circle key={i} cx={x} cy={y} r={isHov?6:4}
+            fill={isHov?"#003D6B":C.blue} stroke="#fff" strokeWidth={1.5}
+            style={{cursor:"pointer",transition:"r 0.15s"}}
+            onMouseEnter={()=>setTip({i,x,y,k,v:teamAvg(k)})}
+            onMouseLeave={()=>setTip(null)}
+          />
+        );
+      })}
+      {tip && (()=>{
+        const {x,y,k,v}=tip;
+        const tw=84, th=34;
+        const tx = x<cx ? x-tw-8 : x+8;
+        const ty = Math.min(336-th, Math.max(0, y-th/2));
+        return (
+          <g style={{pointerEvents:"none"}}>
+            <rect x={tx} y={ty} width={tw} height={th} rx={7} fill="#001E3C" opacity={0.92}/>
+            <text x={tx+tw/2} y={ty+11} textAnchor="middle" fontSize={9} fill="rgba(255,255,255,0.7)" fontFamily="'DM Sans',sans-serif">{k}</text>
+            <text x={tx+tw/2} y={ty+25} textAnchor="middle" fontSize={13} fontWeight={800} fill="#FFD166" fontFamily="'DM Sans',sans-serif">{v}%</text>
+          </g>
+        );
+      })()}
+      {SKILLS.map((k,i)=>{
+        const [x,y]=pt(i,1.28);
+        const anchor = x<cx-5?"end":x>cx+5?"start":"middle";
+        return (
+          <text key={i} x={x} y={y} textAnchor={anchor} dominantBaseline="middle"
+            fontSize={9} fontWeight={600} fill="#5A7184" fontFamily="'DM Sans',sans-serif">{k}</text>
+        );
+      })}
+      <text x={cx} y={cy-6} textAnchor="middle" fontSize={9} fontWeight={700} fill={C.blue} fontFamily="'DM Sans',sans-serif">Team</text>
+      <text x={cx} y={cy+7} textAnchor="middle" fontSize={9} fontWeight={700} fill={C.blue} fontFamily="'DM Sans',sans-serif">Avg</text>
+    </svg>
   );
 }
 
@@ -306,7 +304,7 @@ export default function ManagerViewPage() {
       <div style={{display:"grid",gridTemplateColumns:"auto 1fr 210px",gap:16,marginBottom:24}}>
 
         {/* Radar */}
-        <div style={{background:C.white,border:`1.5px solid ${C.border}`,borderRadius:14,padding:"16px 12px 8px",display:"flex",flexDirection:"column",alignItems:"center",minWidth:230}}>
+        <div style={{background:C.white,border:`1.5px solid ${C.border}`,borderRadius:14,padding:"16px 16px 8px",display:"flex",flexDirection:"column",alignItems:"center"}}>
           <div style={{fontSize:11,fontWeight:700,color:C.text3,textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:4,alignSelf:"flex-start",paddingLeft:8}}>Skill Radar</div>
           <div style={{display:"flex",gap:12,fontSize:9,color:C.text3,marginBottom:4,alignSelf:"flex-start",paddingLeft:8}}>
             <span style={{display:"flex",alignItems:"center",gap:4}}><span style={{width:14,height:2,background:C.blue,display:"inline-block",borderRadius:1}}/>Avg</span>
