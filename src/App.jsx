@@ -8,6 +8,7 @@ import TDAChatbot from "./components/TDAChatbot";
 import MicrolearningPopup from "./components/MicrolearningPopup";
 
 import LoginPage from "./pages/LoginPage";
+import ULIPLitePage from "./pages/ULIPLitePage";
 import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
 import GoalsPage from "./pages/GoalsPage";
@@ -21,6 +22,7 @@ import PlaceholderPage from "./pages/PlaceholderPage";
 
 export default function ULIP() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [contractorLoggedIn, setContractorLoggedIn] = useState(false);
   const [active, setActive] = useState("home");
   const [showMicro, setShowMicro] = useState(false);
   const [notifications, setNotifications] = useState([
@@ -48,7 +50,8 @@ export default function ULIP() {
     }
   }, [loggedIn]);
 
-  if (!loggedIn) return <LoginPage onLogin={() => setLoggedIn(true)} />;
+  if (contractorLoggedIn) return <ULIPLitePage onLogout={() => setContractorLoggedIn(false)} />;
+  if (!loggedIn) return <LoginPage onLogin={() => setLoggedIn(true)} onContractorLogin={() => setContractorLoggedIn(true)} />;
 
   const renderPage = () => {
     switch (active) {

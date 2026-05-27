@@ -1,7 +1,6 @@
 import C from "../theme";
-import { Bdg } from "../components/ui";
 
-export default function LoginPage({ onLogin }) {
+export default function LoginPage({ onLogin, onContractorLogin }) {
   const FEATURES = [
     { icon:"🎯", label:"AI-Personalised Learning Journeys"  },
     { icon:"⚡", label:"Microlearning in Minutes"           },
@@ -68,20 +67,22 @@ export default function LoginPage({ onLogin }) {
               <div style={{ width:46, height:46, borderRadius:12, background:`linear-gradient(135deg,${C.blue},${C.blue2})`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}>🧑‍💼</div>
               <div style={{ flex:1 }}>
                 <div style={{ fontSize:14, fontWeight:700, color:C.text }}>Login for OPR / NOPR</div>
-                <div style={{ fontSize:11, color:C.text3, marginTop:2 }}>Permanent employees · IL & NS levels</div>
+                <div style={{ fontSize:11, color:C.text3, marginTop:2 }}>IL & NS levels · Full platform access</div>
               </div>
               <span style={{ fontSize:18, color:C.blue, fontWeight:700 }}>→</span>
             </div>
           </div>
 
-          <div style={{ padding:"18px 20px", borderRadius:14, border:`2px solid ${C.border}`, background:"#f8f9fb", cursor:"not-allowed", opacity:0.55, marginBottom:28 }}>
+          <div onClick={onContractorLogin} style={{ padding:"18px 20px", borderRadius:14, border:"2px solid #9B59B6", background:"#f5f0fb", cursor:"pointer", marginBottom:28, transition:"all 0.18s" }}
+            onMouseEnter={e=>e.currentTarget.style.background="#ede5f7"}
+            onMouseLeave={e=>e.currentTarget.style.background="#f5f0fb"}>
             <div style={{ display:"flex", alignItems:"center", gap:14 }}>
               <div style={{ width:46, height:46, borderRadius:12, background:"linear-gradient(135deg,#9B59B6,#6C3483)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}>👷</div>
               <div style={{ flex:1 }}>
                 <div style={{ fontSize:14, fontWeight:700, color:C.text }}>Login for Contractor</div>
-                <div style={{ fontSize:11, color:C.text3, marginTop:2 }}>GWC / Contract workforce access</div>
+                <div style={{ fontSize:11, color:C.text3, marginTop:2 }}>GWC / Contract workforce · ULIP Lite</div>
               </div>
-              <Bdg label="Coming Soon" color="#9B59B6"/>
+              <span style={{ fontSize:18, color:"#9B59B6", fontWeight:700 }}>→</span>
             </div>
           </div>
 
