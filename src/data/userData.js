@@ -5,6 +5,6 @@ export const USER = {
   dept: "TQM",
   area: "H Blast Furnace",
   plant: "TSN",
-  level: "IL4",
-  role: "Maintenance Engineer",
+  level: "IL5",
+  role: "Manager",
 };

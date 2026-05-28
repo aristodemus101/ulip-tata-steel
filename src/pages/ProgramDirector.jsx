@@ -442,6 +442,98 @@ export default function ProgramDirector() {
         </div>
       )}
 
+      {tab==="velocity"&&(
+        <div>
+          <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12,marginBottom:16}}>
+            {[
+              {l:"Avg Skill Velocity",v:"186 XP/qtr",c:C.blue,i:"⚡"},
+              {l:"Fastest-Growing Skill",v:"Data Analytics",c:C.green,i:"📈"},
+              {l:"Avg Time to Competence",v:"142 days",c:C.accent,i:"⏱"},
+              {l:"On-Track Learners",v:"68%",c:"#9B59B6",i:"🎯"},
+            ].map((s,i)=>(
+              <Card key={i} pad={18}>
+                <div style={{fontSize:26,marginBottom:6}}>{s.i}</div>
+                <div style={{fontSize:10,color:C.text3,textTransform:"uppercase",letterSpacing:"0.1em"}}>{s.l}</div>
+                <div style={{fontSize:16,fontWeight:800,color:s.c,marginTop:6}}>{s.v}</div>
+              </Card>
+            ))}
+          </div>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16,marginBottom:16}}>
+            <Card>
+              <SLabel>Skill Velocity by Domain — XP gained per quarter</SLabel>
+              {[
+                {skill:"Safety",       vel:240, color:"#E5484D"},
+                {skill:"Engineering",  vel:195, color:"#0080C7"},
+                {skill:"Digital",      vel:280, color:"#9B59B6"},
+                {skill:"Leadership",   vel:140, color:"#18B982"},
+                {skill:"Quality/TQM",  vel:165, color:"#F5A623"},
+                {skill:"Compliance",   vel:110, color:"#8A94A6"},
+              ].map((d,i)=>{
+                const maxV=280;
+                return (
+                  <div key={i} style={{marginBottom:14}}>
+                    <div style={{display:"flex",justifyContent:"space-between",fontSize:12,marginBottom:5}}>
+                      <span style={{fontWeight:600,color:C.text}}>{d.skill}</span>
+                      <span style={{fontWeight:700,color:d.color}}>{d.vel} XP/qtr</span>
+                    </div>
+                    <div style={{height:10,background:C.bg,borderRadius:5,overflow:"hidden"}}>
+                      <div style={{height:"100%",width:`${(d.vel/maxV)*100}%`,background:`linear-gradient(90deg,${d.color},${d.color}90)`,borderRadius:5,transition:"width 0.5s"}}/>
+                    </div>
+                  </div>
+                );
+              })}
+            </Card>
+            <Card>
+              <SLabel>Time to Competence — days to reach target PL at current velocity</SLabel>
+              {[
+                {dept:"Operations TSJ",   ttc:118, onTrack:true },
+                {dept:"Safety, H & S",    ttc:94,  onTrack:true },
+                {dept:"Technology & R&D", ttc:162, onTrack:false},
+                {dept:"TQM, GSP & SC",    ttc:135, onTrack:true },
+                {dept:"Engineering",      ttc:210, onTrack:false},
+                {dept:"HRM",              ttc:188, onTrack:false},
+              ].map((d,i)=>{
+                const col=d.ttc<=90?"#18B982":d.ttc<=150?"#F5A623":"#E5484D";
+                return (
+                  <div key={i} style={{display:"flex",alignItems:"center",gap:12,padding:"10px 0",borderBottom:i<5?`1px solid ${C.border}`:"none"}}>
+                    <div style={{width:36,height:36,borderRadius:8,background:`${col}15`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:800,color:col,flexShrink:0}}>{d.ttc}d</div>
+                    <div style={{flex:1}}>
+                      <div style={{fontSize:12,fontWeight:600,color:C.text}}>{d.dept}</div>
+                      <div style={{fontSize:10,color:d.onTrack?C.green:C.accent,marginTop:1}}>{d.onTrack?"On track to meet year-end PL targets":"Needs intervention — below velocity threshold"}</div>
+                    </div>
+                    <span style={{padding:"2px 8px",borderRadius:6,background:`${col}15`,color:col,fontSize:10,fontWeight:700}}>{d.ttc<=90?"Fast":d.ttc<=150?"On Track":"At Risk"}</span>
+                  </div>
+                );
+              })}
+            </Card>
+          </div>
+          <Card>
+            <SLabel>Velocity Trend — XP gained per quarter across last 4 quarters</SLabel>
+            <div style={{display:"flex",alignItems:"flex-end",gap:0,height:180,paddingTop:10}}>
+              {[
+                {q:"Q2 FY24",depts:[120,95,210,105,130,85]},
+                {q:"Q3 FY24",depts:[140,110,235,118,148,95]},
+                {q:"Q4 FY24",depts:[165,128,258,130,170,104]},
+                {q:"Q1 FY25",depts:[195,140,280,165,210,110]},
+              ].map((qd,qi)=>{
+                const avgVel=Math.round(qd.depts.reduce((a,b)=>a+b,0)/qd.depts.length);
+                const maxBar=280;
+                return (
+                  <div key={qi} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:4,borderRight:qi<3?`1px dashed ${C.border}`:"none",padding:"0 8px"}}>
+                    <div style={{fontSize:11,fontWeight:700,color:C.blue}}>{avgVel}</div>
+                    <div style={{width:"60%",borderRadius:"4px 4px 0 0",background:`linear-gradient(180deg,${C.blue},${C.blue2})`,height:`${(avgVel/maxBar)*130}px`,transition:"height 0.5s"}}/>
+                    <div style={{fontSize:10,color:C.text3,textAlign:"center"}}>{qd.q}</div>
+                  </div>
+                );
+              })}
+            </div>
+            <div style={{marginTop:12,padding:"10px 14px",background:C.blue3,borderRadius:10,fontSize:12,color:C.blue,fontWeight:600}}>
+              ⚡ Avg skill velocity increased 38% over the last 4 quarters — Digital domain growing fastest at 33% QoQ
+            </div>
+          </Card>
+        </div>
+      )}
+
       {tab==="requests"&&(
         <Card>
           <SLabel>Training Requests from Managers</SLabel>

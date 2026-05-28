@@ -81,18 +81,18 @@ export const SKILL_NAMES = [
 ];
 
 export const SKILL_GAPS = [
-  { skill:"Fire Safety",              current:72, required:90, category:"Safety"      },
-  { skill:"Emergency Response",       current:55, required:80, category:"Safety"      },
-  { skill:"Process Safety",           current:71, required:90, category:"Safety"      },
-  { skill:"LOTO Procedure",           current:65, required:85, category:"Safety"      },
-  { skill:"PLC Programming",          current:28, required:70, category:"Engineering" },
-  { skill:"Predictive Maintenance",   current:55, required:75, category:"Engineering" },
-  { skill:"Blast Furnace Operations", current:82, required:90, category:"Engineering" },
-  { skill:"Industrial IoT",           current:35, required:65, category:"Engineering" },
-  { skill:"Team Management",          current:60, required:75, category:"Leadership"  },
-  { skill:"Project Management",       current:55, required:70, category:"Leadership"  },
-  { skill:"Data Analytics",           current:42, required:80, category:"Digital"     },
-  { skill:"Python Basics",            current:22, required:60, category:"Digital"     },
+  { skill:"Fire Safety",              xp:2800, prevXpQ:2550, targetPL:3, skillGap:12, category:"Safety"      },
+  { skill:"Emergency Response",       xp:2200, prevXpQ:1980, targetPL:3, skillGap:18, category:"Safety"      },
+  { skill:"Process Safety",           xp:2900, prevXpQ:2620, targetPL:4, skillGap:14, category:"Safety"      },
+  { skill:"LOTO Procedure",           xp:2400, prevXpQ:2180, targetPL:3, skillGap:10, category:"Safety"      },
+  { skill:"PLC Programming",          xp:1200, prevXpQ:1020, targetPL:3, skillGap:28, category:"Engineering" },
+  { skill:"Predictive Maintenance",   xp:2800, prevXpQ:2550, targetPL:4, skillGap:15, category:"Engineering" },
+  { skill:"Blast Furnace Operations", xp:3850, prevXpQ:3580, targetPL:4, skillGap:6,  category:"Engineering" },
+  { skill:"Industrial IoT",           xp:1500, prevXpQ:1300, targetPL:3, skillGap:22, category:"Engineering" },
+  { skill:"Team Management",          xp:3500, prevXpQ:3220, targetPL:5, skillGap:8,  category:"Leadership"  },
+  { skill:"Project Management",       xp:3100, prevXpQ:2850, targetPL:4, skillGap:10, category:"Leadership"  },
+  { skill:"Data Analytics",           xp:2200, prevXpQ:1980, targetPL:3, skillGap:20, category:"Digital"     },
+  { skill:"Python Basics",            xp:900,  prevXpQ:740,  targetPL:3, skillGap:30, category:"Digital"     },
 ];
 
 export const LEARNING_MAP = {
@@ -136,18 +136,18 @@ export const CALENDAR_EVENTS = [
 ];
 
 export const TQM_GOALS = [
-  { id:1,  title:"Business Assessment using TBEM",   icon:"🏢", progress:65, items:["Understand TBEM framework","Conduct business assessments","Gap analysis & scoring","Action planning"] },
-  { id:2,  title:"Daily Management",                  icon:"📋", progress:80, items:["Visual management tools","Daily review meetings","KPI monitoring","Deviation handling"] },
-  { id:3,  title:"Data Analytics",                    icon:"📊", progress:38, items:["Statistical analysis basics","Power BI dashboards","Data storytelling","Predictive models"] },
-  { id:4,  title:"Education Excellence Management",   icon:"🎓", progress:55, items:["Competency frameworks","Training needs analysis","Learning ROI measurement","Knowledge transfer"] },
-  { id:5,  title:"Employee Involvement Initiatives",  icon:"🤝", progress:70, items:["Kaizen circles","Suggestion systems","Cross-functional teams","Recognition programs"] },
-  { id:6,  title:"Knowledge Management",              icon:"🧠", progress:45, items:["Knowledge capture tools","Best practice sharing","Expert directories","Learning communities"] },
-  { id:7,  title:"Policy Management",                 icon:"📜", progress:60, items:["Policy deployment","Hoshin Kanri","Target setting","Review cadence"] },
-  { id:8,  title:"Quality Assurance",                 icon:"✅", progress:72, items:["SPC & control charts","Inspection protocols","Non-conformance mgmt","Root cause analysis"] },
-  { id:9,  title:"Supply Chain Management",           icon:"🔗", progress:50, items:["Supplier evaluation","Inventory optimization","Demand forecasting","Lead time reduction"] },
-  { id:10, title:"Theory of Constraints (CCPM)",      icon:"⛓", progress:30, items:["Identify constraints","CCPM scheduling","Buffer management","Throughput accounting"] },
-  { id:11, title:"TPM",                               icon:"⚙", progress:85, items:["5S fundamentals","Autonomous maintenance","Planned maintenance","OEE measurement"] },
-  { id:12, title:"TQM",                               icon:"🎯", progress:68, items:["TQM principles","Process excellence","Customer focus","Continuous improvement"] },
+  { id:1,  title:"Business Assessment using TBEM",   icon:"🏢", xp:3200, targetPL:4, items:["Understand TBEM framework","Conduct business assessments","Gap analysis & scoring","Action planning"] },
+  { id:2,  title:"Daily Management",                  icon:"📋", xp:4050, targetPL:5, items:["Visual management tools","Daily review meetings","KPI monitoring","Deviation handling"] },
+  { id:3,  title:"Data Analytics",                    icon:"📊", xp:1880, targetPL:3, items:["Statistical analysis basics","Power BI dashboards","Data storytelling","Predictive models"] },
+  { id:4,  title:"Education Excellence Management",   icon:"🎓", xp:2720, targetPL:3, items:["Competency frameworks","Training needs analysis","Learning ROI measurement","Knowledge transfer"] },
+  { id:5,  title:"Employee Involvement Initiatives",  icon:"🤝", xp:3480, targetPL:4, items:["Kaizen circles","Suggestion systems","Cross-functional teams","Recognition programs"] },
+  { id:6,  title:"Knowledge Management",              icon:"🧠", xp:2240, targetPL:3, items:["Knowledge capture tools","Best practice sharing","Expert directories","Learning communities"] },
+  { id:7,  title:"Policy Management",                 icon:"📜", xp:2980, targetPL:4, items:["Policy deployment","Hoshin Kanri","Target setting","Review cadence"] },
+  { id:8,  title:"Quality Assurance",                 icon:"✅", xp:3620, targetPL:4, items:["SPC & control charts","Inspection protocols","Non-conformance mgmt","Root cause analysis"] },
+  { id:9,  title:"Supply Chain Management",           icon:"🔗", xp:2480, targetPL:3, items:["Supplier evaluation","Inventory optimization","Demand forecasting","Lead time reduction"] },
+  { id:10, title:"Theory of Constraints (CCPM)",      icon:"⛓", xp:1480, targetPL:3, items:["Identify constraints","CCPM scheduling","Buffer management","Throughput accounting"] },
+  { id:11, title:"TPM",                               icon:"⚙", xp:4240, targetPL:5, items:["5S fundamentals","Autonomous maintenance","Planned maintenance","OEE measurement"] },
+  { id:12, title:"TQM",                               icon:"🎯", xp:3380, targetPL:4, items:["TQM principles","Process excellence","Customer focus","Continuous improvement"] },
 ];
 
 export const SOE_CERTS = [

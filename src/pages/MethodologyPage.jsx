@@ -164,16 +164,16 @@ export default function MethodologyPage() {
       outputs:"XP reward notification (+5 XP in TQM) added to global notification list if correct. Phase result UI shown.",
       deps:["App.jsx","TopBar notifications","MicrolearningPopup.jsx","userData.js"] },
 
-    { icon:"📊",  label:"Skill Gap Analytics",       color:C.red,
-      purpose:"Shows dept-level skill gap percentages to trainers in the Program Director module.",
+    { icon:"📊",  label:"Skill Gap & PL Analytics",   color:C.red,
+      purpose:"Shows dept-level skill gaps and PL1–PL5 proficiency progress to trainers in the Program Director module.",
       inputs:"Trainer selects department filter and optionally seniority level and reporting manager.",
-      processing:"Looks up SKILL_GAP_DATA object by department key, renders progress bars for each skill gap percentage.",
-      outputs:"Bar chart visualisation of achieved vs gap % per skill. Summary stats: avg gap, critical gaps count, dept employees.",
+      processing:"Looks up SKILL_GAP_DATA by department key, renders progress bars. Skill Velocity & TTC tab reads per-skill XP velocity (XP gained per quarter) and projects days to reach target PL at current rate.",
+      outputs:"Skill gap bars, Skill Velocity bar chart by domain, Time to Competence table per department (colour-coded Fast/On Track/At Risk), quarterly velocity trend chart.",
       deps:["workData.js SKILL_GAP_DATA","ProgramDirector.jsx"] },
 
     { icon:"🎯",  label:"Recommendation Engine",     color:C.blue,
       purpose:"Surfaces relevant learning content matched to the user's role, skill profile, and goals.",
-      inputs:"User profile (role IL4, dept TQM, area H Blast Furnace), skill gap data, learning history.",
+      inputs:"User profile (role IL5, dept TQM, area H Blast Furnace), skill gap data, learning history.",
       processing:"Static matching in learningData.js (curated for demo). Production would rank by cosine similarity between skill gap vector and course tag vector.",
       outputs:"REC_LEARNINGS array (4 courses with match %) shown on HomePage. AI chatbot also generates contextual suggestions.",
       deps:["learningData.js","userData.js","TDAChatbot suggestions"] },
@@ -188,8 +188,8 @@ export default function MethodologyPage() {
     { icon:"🏭",  label:"Program Director (Admin)",  color:"#003D6B",
       purpose:"Trainer-only control panel for creating content, running analytics, booking sessions and managing campaigns.",
       inputs:"Trainer interactions: filter selections, file uploads, content generation requests, booking forms.",
-      processing:"16 sub-sections grouped into 3 categories: Analytics & Insights, Content Creation, Training Management. Each sub-section manages its own local state.",
-      outputs:"Skill gap charts, AI-generated content placeholders, booking confirmations, campaign setups, training dashboards.",
+      processing:"17 sub-sections grouped into 3 categories: Analytics & Insights (5 tabs incl. Skill Velocity & TTC), Content Creation (6 tabs), Training Management (6 tabs). Each sub-section manages its own local state.",
+      outputs:"Skill gap charts, velocity & TTC dashboards, AI-generated content placeholders, booking confirmations, campaign setups, training dashboards.",
       deps:["workData.js","MicrolearningEngine.jsx","LiveWorkUpdates.jsx"] },
 
     { icon:"☁️",  label:"Hosting & CI/CD",           color:"#8A94A6",
@@ -205,14 +205,18 @@ export default function MethodologyPage() {
       a:"Every message to the AI includes a detailed system prompt (sent invisibly) that briefs the model on who it is (TDA), who the user is (name, role, department, plant), what content exists in ULIP (microlearnings, courses, skill areas), and how to respond. This context is re-sent with every message so the AI always has full situational awareness, even though it has no persistent memory between sessions." },
     { q:"How are course and microlearning suggestions generated in the chatbot?",
       a:"The system prompt instructs Gemini to always append a structured tag at the end of every response: SUGGESTIONS:{\"micro\":\"...\",\"course\":\"...\"}. The frontend uses a regular expression to extract these titles, strips them from the displayed text, and renders them as clickable hyperlinks in a 'Suggested on ULIP' card below the response." },
-    { q:"How does the skill gap analysis work?",
-      a:"Skill gap data is stored as a department-indexed object (SKILL_GAP_DATA in workData.js). Each department has a list of skills with a gap percentage representing the difference between the average current proficiency and the required proficiency for that role. Trainers filter by department, manager, and seniority level. The visualisation renders horizontal progress bars showing achieved vs gap portions." },
+    { q:"How does the skill proficiency (PL) system work?",
+      a:"Every skill is measured on a PL1–PL5 scale: PL1 Basic, PL2 Can do with support, PL3 Can do independently, PL4 Practitioner, PL5 Expert. Each PL band covers 1,000 XP (PL1 = 0–999 XP, PL2 = 1,000–1,999 XP, and so on up to 5,000 XP max). Employees accumulate XP through microlearnings, assessments, courses, and projects throughout the year. The official PL number on their profile only advances when their manager reviews evidence and approves the upgrade at year-end review. The skill gap % (from annual assessment) measures how far the employee is from the target PL for their role." },
+    { q:"What are Skill Velocity and Time to Competence?",
+      a:"Skill Velocity is the XP gained per quarter (XP at quarter end minus XP at quarter start). Time to Competence (TTC) is the projected number of days to reach the target PL at current velocity: TTC = (targetPL × 1000 − currentXP) ÷ (velocity ÷ 90). Both metrics are shown in the Manager View per team member and at department level in the Program Director Skill Velocity & TTC tab." },
+    { q:"How does the Manager PL Year-End Review work?",
+      a:"The Manager View shows a Year-End Review section listing all team members who have crossed a PL threshold during the quarter (their XP crossed a 1,000 XP boundary). For each pending upgrade the manager sees the evidence: courses completed, assessment scores, and projects delivered (with XP earned). The manager clicks 'Approve PL Upgrade' to officially confirm the new PL level on the employee's profile." },
     { q:"How are learning recommendations generated?",
-      a:"For this version, recommendations are curated and stored as static data in learningData.js, pre-matched to the user's role profile (IL4 Maintenance Engineer, TQM dept). Match percentages (88%–94%) reflect the editorial match quality. In a production deployment, this would be replaced by a vector similarity model comparing the user's skill gap vector against course tag embeddings." },
+      a:"For this version, recommendations are curated and stored as static data in learningData.js, pre-matched to the user's role profile (IL5 Manager, TQM dept). Match percentages (88%–94%) reflect the editorial match quality. In a production deployment, this would be replaced by a vector similarity model comparing the user's skill gap vector against course tag embeddings." },
     { q:"Why does the app not use a URL for each page?",
       a:"The app uses state-based in-memory routing rather than React Router. This was an intentional architectural choice for simplicity and speed of development. The active page is stored as a string in App.jsx's state, and a switch-case renders the correct component. Firebase Hosting is configured with a catch-all rewrite to index.html, which supports this SPA pattern." },
-    { q:"How is the XP system calculated?",
-      a:"Each correct quiz answer in the MicrolearningPopup awards +5 Skill XP in the relevant skill area (e.g. TQM). XP is displayed against a cumulative total (4,825 / 10,000 for TQM in the demo). A notification is fired via the addNotification() callback in App.jsx, which prepends a new entry to the global notifications array, immediately visible in the TopBar bell dropdown." },
+    { q:"How is XP earned and displayed?",
+      a:"XP is earned through four activity types: microlearnings (+5–30 XP), assessments (+30–50 XP), courses (+20–80 XP), and projects (+80–180 XP). Each skill accumulates XP independently on a 0–5,000 XP scale divided into 5 PL bands of 1,000 XP each. A correct quiz answer in the MicrolearningPopup fires a notification via addNotification() in App.jsx. On the profile and skill gap views, each skill shows its current PL badge, XP within the current PL band (e.g. 680/1000 in PL1), and a bar reaching the target PL threshold." },
     { q:"Is user data secure?",
       a:"In this demonstration build, the user profile is hardcoded in userData.js and no real authentication is performed. The Gemini API key is stored as a GitHub Secret and injected only at build time via the VITE_GEMINI_API_KEY environment variable — it is never committed to the repository. Production deployment would integrate Azure Active Directory SSO with MFA, and all user data would come from the enterprise identity provider." },
     { q:"How does the notification system work?",
@@ -220,7 +224,7 @@ export default function MethodologyPage() {
     { q:"What triggers the microlearning popup?",
       a:"Two triggers: (1) Automatically — a setTimeout in App.jsx fires after 15 seconds post-login, setting showMicro to true. (2) Manually — clicking the 'Daily Microlearning ready' notification in the TopBar bell dropdown calls setShowMicro(true) via the onNotifClick handler." },
     { q:"How does the Program Director's content grouping work?",
-      a:"The 16 original section tabs were grouped into 3 logical categories: Analytics & Insights (4 tabs), Content Creation (6 tabs), and Training Management (6 tabs). Each category is rendered as a clickable card tile. When a tile is selected, its sub-tabs appear below. The active group colour is used as the accent for all its sub-tab buttons, providing visual continuity." },
+      a:"The 17 section tabs are grouped into 3 logical categories: Analytics & Insights (5 tabs: Skill Gap Analysis, Sentiment & Effectiveness, Training Dashboard, AI Insights, Skill Velocity & TTC), Content Creation (6 tabs), and Training Management (6 tabs). Each category is a clickable card tile. When selected, its sub-tabs appear below, using the group's accent colour for visual continuity." },
   ];
 
   return (
@@ -233,7 +237,7 @@ export default function MethodologyPage() {
         <div style={{ position:"relative", zIndex:1 }}>
           <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:14 }}>
             <Tag label="DOCUMENTATION" color="#FFD166"/>
-            <Tag label="v1.0 · 2025" color="rgba(255,255,255,0.5)"/>
+            <Tag label="v1.1 · 2026" color="rgba(255,255,255,0.5)"/>
           </div>
           <h1 style={{ fontSize:36, fontWeight:900, color:"#fff", fontFamily:"'Playfair Display',serif", margin:"0 0 10px", lineHeight:1.15 }}>How ULIP Works</h1>
           <p style={{ fontSize:15, color:"rgba(255,255,255,0.75)", maxWidth:680, lineHeight:1.7, margin:"0 0 24px" }}>
@@ -455,7 +459,7 @@ export default function MethodologyPage() {
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:16, marginBottom:16 }}>
         <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
           {[
-            { step:1, icon:"👤", label:"User Context Injection",    color:"#9B59B6", desc:"Before every API call, the system prompt is prepended with the user's name, role (Maintenance Engineer), level (IL4), department (TQM), area (H Blast Furnace), and plant (TSN). The AI always knows who it is talking to." },
+            { step:1, icon:"👤", label:"User Context Injection",    color:"#9B59B6", desc:"Before every API call, the system prompt is prepended with the user's name, role (Manager), level (IL5), department (TQM), area (H Blast Furnace), and plant (TSN). The AI always knows who it is talking to." },
             { step:2, icon:"📚", label:"ULIP Knowledge Briefing",   color:C.blue,    desc:"The system prompt lists all 20 skill domains available on ULIP, all 9 content types (microlearnings, courses, assessments, gigs, jobs, SMEs, goals, communities, Program Director), and response style guidelines." },
             { step:3, icon:"💬", label:"Conversation History",      color:"#F5A623", desc:"All prior messages are included in every API call as a structured contents array with 'user' and 'model' roles. This gives the AI memory of the current session without any server-side session storage." },
             { step:4, icon:"🔧", label:"Config: Balanced Creativity",color:"#18B982", desc:"Temperature is set to 0.7 — enough creativity for natural conversation while remaining factually grounded. maxOutputTokens is capped at 512 to keep responses concise and fast." },

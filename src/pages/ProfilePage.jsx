@@ -5,7 +5,11 @@ import ProfileAvatar from "../components/ProfileAvatar";
 import SOEBadge from "../components/SOEBadge";
 import { SKILL_MODULES, SKILL_NAMES, SKILL_GAPS, LEARNING_MAP, SOE_CERTS } from "../data/learningData";
 
-function SkillDrilldown({ skill, current, required, onClose }) {
+const PL_LABELS = ["","Basic","Can do with support","Can do independently","Practitioner","Expert"];
+const PL_COL    = ["","#8A94A6","#F5A623","#0080C7","#9B59B6","#18B982"];
+const xpToPL    = xp => Math.min(5, Math.floor(xp / 1000) + 1);
+
+function SkillDrilldown({ skill, xp, targetPL, skillGap, onClose }) {
   const modules = SKILL_MODULES[skill] || [
     { type:"micro",  icon:"⚡", title:`${skill} Introduction`,        duration:"2 min",  xp:5  },
     { type:"course", icon:"📘", title:`${skill} Foundations Course`,  duration:"2h",     xp:40 },
@@ -16,7 +20,9 @@ function SkillDrilldown({ skill, current, required, onClose }) {
   const [submitted, setSubmitted] = useState(false);
   const [result, setResult] = useState(null);
 
-  const gap = required - current;
+  const currentPL  = xpToPL(xp);
+  const xpInLevel  = xp % 1000;
+  const xpToNext   = 1000 - xpInLevel;
   const typeColors = { micro:C.accent, course:C.blue, project:"#9B59B6", assess:C.green };
   const typeLabels = { micro:"Microlearning", course:"Course", project:"Project", assess:"Assessment" };
 
@@ -40,21 +46,23 @@ function SkillDrilldown({ skill, current, required, onClose }) {
           </div>
           <div style={{ display:"flex", gap:12, marginTop:10 }}>
             <div style={{ background:"rgba(255,255,255,0.15)", borderRadius:10, padding:"8px 14px", textAlign:"center" }}>
-              <div style={{ fontSize:18, fontWeight:800, color:"#fff" }}>{current}%</div>
-              <div style={{ fontSize:9, color:"rgba(255,255,255,0.7)", textTransform:"uppercase" }}>Current</div>
+              <div style={{ fontSize:18, fontWeight:800, color:"#fff" }}>PL{currentPL}</div>
+              <div style={{ fontSize:9, color:"rgba(255,255,255,0.7)", textTransform:"uppercase" }}>{PL_LABELS[currentPL]}</div>
             </div>
             <div style={{ background:"rgba(255,255,255,0.15)", borderRadius:10, padding:"8px 14px", textAlign:"center" }}>
-              <div style={{ fontSize:18, fontWeight:800, color:"#FFD166" }}>{required}%</div>
-              <div style={{ fontSize:9, color:"rgba(255,255,255,0.7)", textTransform:"uppercase" }}>Required</div>
+              <div style={{ fontSize:18, fontWeight:800, color:"#FFD166" }}>PL{targetPL}</div>
+              <div style={{ fontSize:9, color:"rgba(255,255,255,0.7)", textTransform:"uppercase" }}>Target</div>
             </div>
             <div style={{ background:"rgba(229,72,77,0.3)", borderRadius:10, padding:"8px 14px", textAlign:"center" }}>
-              <div style={{ fontSize:18, fontWeight:800, color:"#FFB3B5" }}>{gap}%</div>
-              <div style={{ fontSize:9, color:"rgba(255,255,255,0.7)", textTransform:"uppercase" }}>Gap</div>
+              <div style={{ fontSize:18, fontWeight:800, color:"#FFB3B5" }}>{skillGap}%</div>
+              <div style={{ fontSize:9, color:"rgba(255,255,255,0.7)", textTransform:"uppercase" }}>Skill Gap</div>
             </div>
-            <div style={{ flex:1, display:"flex", alignItems:"center", paddingLeft:8 }}>
+            <div style={{ flex:1, display:"flex", flexDirection:"column", justifyContent:"center", paddingLeft:8, gap:4 }}>
+              <div style={{ fontSize:9, color:"rgba(255,255,255,0.7)", textTransform:"uppercase" }}>{xp} XP · {xpInLevel}/1000 in PL{currentPL}</div>
               <div style={{ width:"100%", height:8, background:"rgba(255,255,255,0.2)", borderRadius:4, overflow:"hidden" }}>
-                <div style={{ height:"100%", width:`${current}%`, background:"linear-gradient(90deg,#4FC3F7,#fff)", borderRadius:4 }}/>
+                <div style={{ height:"100%", width:`${(xp/5000)*100}%`, background:"linear-gradient(90deg,#4FC3F7,#fff)", borderRadius:4 }}/>
               </div>
+              <div style={{ fontSize:9, color:"rgba(255,255,255,0.5)" }}>{xpToNext} XP to PL{Math.min(5,currentPL+1)}</div>
             </div>
           </div>
         </div>
@@ -153,11 +161,11 @@ function SkillPassport({ onClose }) {
             <ProfileAvatar size={72}/>
             <div style={{flex:1}}>
               <div style={{fontSize:20,fontWeight:800,color:"#fff",fontFamily:"'Playfair Display',serif"}}>Jay Pratap Singh</div>
-              <div style={{fontSize:12,color:"rgba(255,255,255,0.7)"}}>Maintenance Engineer · IL4 · TQM Department</div>
+              <div style={{fontSize:12,color:"rgba(255,255,255,0.7)"}}>Manager · IL5 · TQM Department</div>
               <div style={{fontSize:12,color:"rgba(255,255,255,0.6)"}}>Area: H Blast Furnace · Plant: TSN · Jamshedpur</div>
             </div>
             <div style={{textAlign:"center",background:"rgba(255,255,255,0.15)",borderRadius:12,padding:"12px 18px"}}>
-              <div style={{fontSize:28,fontWeight:800,color:"#FFD700",fontFamily:"'Playfair Display',serif"}}>4,820</div>
+              <div style={{fontSize:28,fontWeight:800,color:"#FFD700",fontFamily:"'Playfair Display',serif"}}>3,120</div>
               <div style={{fontSize:9,color:"rgba(255,255,255,0.6)",textTransform:"uppercase",letterSpacing:"0.1em"}}>Skill XP</div>
             </div>
             <button onClick={onClose} style={{width:30,height:30,borderRadius:"50%",background:"rgba(255,255,255,0.15)",border:"none",color:"#fff",fontSize:16,cursor:"pointer"}}>✕</button>
@@ -167,12 +175,19 @@ function SkillPassport({ onClose }) {
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:20,marginBottom:20}}>
             <div>
               <SLabel>Top Skills</SLabel>
-              {[["Blast Furnace Operations",88],["TPM & Lean",82],["Process Safety",71],["Quality Systems",65],["Data Analytics",42]].map(([s,v],i)=>(
-                <div key={i} style={{marginBottom:10}}>
-                  <div style={{display:"flex",justifyContent:"space-between",fontSize:12,marginBottom:4}}><span style={{color:C.text}}>{s}</span><span style={{color:C.blue,fontWeight:600}}>{v}%</span></div>
-                  <div style={{height:6,background:C.border,borderRadius:3}}><div style={{height:"100%",borderRadius:3,width:`${v}%`,background:`linear-gradient(90deg,${C.blue},#7B97F8)`}}/></div>
-                </div>
-              ))}
+              {[["Blast Furnace Operations",3850],["Leadership & Team Mgmt",3500],["Process Safety",2900],["TPM & Lean",3200],["Project Management",3100]].map(([s,v],i)=>{
+                const pl=xpToPL(v);
+                return (
+                  <div key={i} style={{marginBottom:10}}>
+                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",fontSize:12,marginBottom:4}}>
+                      <span style={{color:C.text}}>{s}</span>
+                      <span style={{padding:"1px 6px",borderRadius:5,background:`${PL_COL[pl]}20`,color:PL_COL[pl],fontSize:10,fontWeight:700}}>PL{pl}</span>
+                    </div>
+                    <div style={{height:6,background:C.border,borderRadius:3}}><div style={{height:"100%",borderRadius:3,width:`${(v/5000)*100}%`,background:`linear-gradient(90deg,${PL_COL[pl]},${PL_COL[Math.min(5,pl+1)]})`}}/></div>
+                    <div style={{fontSize:9,color:C.text3,marginTop:2}}>{v} XP · {v%1000}/1000 in PL{pl}</div>
+                  </div>
+                );
+              })}
             </div>
             <div>
               <SLabel>SOE Certifications</SLabel>
@@ -225,7 +240,7 @@ export default function ProfilePage() {
   return (
     <div style={{maxWidth:1100}}>
       {showPassport&&<SkillPassport onClose={()=>setShowPassport(false)}/>}
-      {drillSkill&&<SkillDrilldown skill={drillSkill.skill} current={drillSkill.current} required={drillSkill.required} onClose={()=>setDrillSkill(null)}/>}
+      {drillSkill&&<SkillDrilldown skill={drillSkill.skill} xp={drillSkill.xp} targetPL={drillSkill.targetPL} skillGap={drillSkill.skillGap} onClose={()=>setDrillSkill(null)}/>}
 
       <Card style={{marginBottom:20}}>
         <div style={{display:"flex",gap:24,alignItems:"flex-start"}}>
@@ -237,7 +252,7 @@ export default function ProfilePage() {
               <Bdg label="Safety Champion" color={C.green}/>
               <Bdg label="🔥 42-day streak" color={C.red}/>
             </div>
-            <div style={{fontSize:13,color:C.text2,marginBottom:2}}>Maintenance Engineer · IL4</div>
+            <div style={{fontSize:13,color:C.text2,marginBottom:2}}>Manager · IL5</div>
             <div style={{fontSize:12,color:C.text3,marginBottom:10}}>🏭 Department: TQM &nbsp;|&nbsp; 📍 Area: H Blast Furnace &nbsp;|&nbsp; 🏗 Plant: TSN, Jamshedpur</div>
             <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
               {["Six Sigma","Lean","Fire Safety","ISO 9001","TPM","Predictive Maint."].map(b=><Bdg key={b} label={b} color={C.blue}/>)}
@@ -245,7 +260,7 @@ export default function ProfilePage() {
           </div>
           <div style={{display:"flex",flexDirection:"column",gap:10,flexShrink:0,alignItems:"flex-end"}}>
             <div style={{textAlign:"center",background:C.blue3,borderRadius:14,padding:"14px 22px"}}>
-              <div style={{fontSize:32,fontWeight:800,color:C.blue,fontFamily:"'Playfair Display',serif"}}>4,820</div>
+              <div style={{fontSize:32,fontWeight:800,color:C.blue,fontFamily:"'Playfair Display',serif"}}>3,120</div>
               <div style={{fontSize:10,color:C.text3,textTransform:"uppercase",letterSpacing:"0.1em"}}>Skill XP</div>
               <div style={{fontSize:11,color:C.green,marginTop:4}}>Top 12% in team</div>
             </div>
@@ -352,19 +367,29 @@ export default function ProfilePage() {
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16,marginBottom:16}}>
         <Card>
           <SLabel>Skill Gap Analysis — click any skill to explore</SLabel>
-          {SKILL_GAPS.map((s,i)=>(
+          {SKILL_GAPS.map((s,i)=>{
+            const pl=xpToPL(s.xp);
+            const met=pl>=s.targetPL;
+            return (
             <div key={i} onClick={()=>setDrillSkill(s)} style={{marginBottom:14,cursor:"pointer",padding:"8px 10px",borderRadius:10,border:`1px solid transparent`,transition:"all 0.15s"}}
               onMouseEnter={e=>{e.currentTarget.style.background=C.blue3;e.currentTarget.style.borderColor=C.blue4;}} onMouseLeave={e=>{e.currentTarget.style.background="transparent";e.currentTarget.style.borderColor="transparent";}}>
-              <div style={{display:"flex",justifyContent:"space-between",marginBottom:5,fontSize:12,color:C.text}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:5,fontSize:12,color:C.text}}>
                 <span style={{fontWeight:600}}>{s.skill} <span style={{color:C.blue,fontSize:10}}>↗ View modules</span></span>
-                <span style={{color:s.current>=s.required?C.green:C.red,fontWeight:600}}>{s.current}% / {s.required}%</span>
+                <div style={{display:"flex",gap:6,alignItems:"center"}}>
+                  <span style={{padding:"1px 6px",borderRadius:5,background:`${PL_COL[pl]}20`,color:PL_COL[pl],fontSize:10,fontWeight:700}}>PL{pl}</span>
+                  <span style={{fontSize:10,color:C.text3}}>→</span>
+                  <span style={{padding:"1px 6px",borderRadius:5,background:`${PL_COL[s.targetPL]}20`,color:PL_COL[s.targetPL],fontSize:10,fontWeight:700}}>PL{s.targetPL}</span>
+                  {s.skillGap>0&&<span style={{fontSize:10,color:C.red,fontWeight:600}}>{s.skillGap}% gap</span>}
+                </div>
               </div>
               <div style={{height:7,background:C.border,borderRadius:4,position:"relative"}}>
-                <div style={{height:"100%",borderRadius:4,width:`${s.current}%`,background:s.current>=s.required?`linear-gradient(90deg,${C.green},#5EE8B5)`:`linear-gradient(90deg,${C.blue},#7B97F8)`}}/>
-                <div style={{position:"absolute",top:-3,height:13,width:2,background:C.text3,left:`${s.required}%`,borderRadius:2}}/>
+                <div style={{height:"100%",borderRadius:4,width:`${(s.xp/5000)*100}%`,background:met?`linear-gradient(90deg,${C.green},#5EE8B5)`:`linear-gradient(90deg,${C.blue},#7B97F8)`}}/>
+                <div style={{position:"absolute",top:-3,height:13,width:2,background:C.text3,left:`${(s.targetPL*1000/5000)*100}%`,borderRadius:2}}/>
               </div>
+              <div style={{fontSize:9,color:C.text3,marginTop:3}}>{s.xp} XP · {s.xp%1000}/1000 in PL{pl} · {met?"Target met ✓":`${s.targetPL*1000-s.xp} XP to reach PL${s.targetPL}`}</div>
             </div>
-          ))}
+            );
+          })}
         </Card>
 
         <Card>

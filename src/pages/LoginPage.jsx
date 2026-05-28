@@ -80,7 +80,7 @@ export default function LoginPage({ onLogin, onContractorLogin }) {
               <div style={{ width:46, height:46, borderRadius:12, background:"linear-gradient(135deg,#9B59B6,#6C3483)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}>👷</div>
               <div style={{ flex:1 }}>
                 <div style={{ fontSize:14, fontWeight:700, color:C.text }}>Login for Contractor</div>
-                <div style={{ fontSize:11, color:C.text3, marginTop:2 }}>GWC / Contract workforce · ULIP Lite</div>
+                <div style={{ fontSize:11, color:C.text3, marginTop:2 }}>Contract workforce · ULIP Lite</div>
               </div>
               <span style={{ fontSize:18, color:"#9B59B6", fontWeight:700 }}>→</span>
             </div>

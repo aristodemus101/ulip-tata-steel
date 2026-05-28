@@ -71,7 +71,7 @@ export const ACTIVE_PROGRAMS = [
 
 export const GROUPS = [
   { id:"analytics", icon:"📊", label:"Analytics & Insights",  color:"#0080C7", desc:"Skill gaps, engagement trends, dashboards & AI insights",
-    tabs:[{id:"skillgap",label:"📊 Skill Gap Analysis"},{id:"sentiment",label:"📈 Sentiment & Effectiveness"},{id:"dashboard",label:"📊 Training Dashboard"},{id:"insights",label:"🧠 AI Insights"}] },
+    tabs:[{id:"skillgap",label:"📊 Skill Gap Analysis"},{id:"sentiment",label:"📈 Sentiment & Effectiveness"},{id:"dashboard",label:"📊 Training Dashboard"},{id:"insights",label:"🧠 AI Insights"},{id:"velocity",label:"⚡ Skill Velocity & TTC"}] },
   { id:"content",   icon:"✨", label:"Content Creation",       color:"#9B59B6", desc:"AI videos, microlearning, scenarios, gamified & case studies",
     tabs:[{id:"content",label:"✨ AI Content Creator"},{id:"micro",label:"⚡ Microlearning Engine"},{id:"liveWork",label:"🏭 Live Work Updates"},{id:"scenario",label:"🎭 Scenario & Simulation"},{id:"gamified",label:"🎮 Gamified Creator"},{id:"casestudy",label:"⚡ Case Study / Incident"}] },
   { id:"management",icon:"📅", label:"Training Management",    color:"#18B982", desc:"Book, schedule, track & manage all training programs",

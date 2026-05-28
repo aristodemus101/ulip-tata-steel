@@ -18,7 +18,7 @@ export default function Sidebar({ active, setActive }) {
         <ProfileAvatar size={32}/>
         <div>
           <div style={{ fontSize:12, fontWeight:600, color:"#fff" }}>Jay Pratap Singh</div>
-          <div style={{ fontSize:9, color:"rgba(255,255,255,0.85)" }}>TQM · H BF · TSN · IL4</div>
+          <div style={{ fontSize:9, color:"rgba(255,255,255,0.85)" }}>TQM · H BF · TSN · IL5</div>
         </div>
       </div>
 
